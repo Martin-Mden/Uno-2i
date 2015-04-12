@@ -30,6 +30,10 @@ public class Serveur extends Thread {
             System.err.println("[Serveur] Impossible de créer le socket serveur : " + e.getMessage());
         }
         
+        // Notification de mise en ligne au serveur d'accueil
+        Notification notif = new Notification();
+        notif.start();
+        
         System.out.println("[Serveur] Création des joueurs...");
         Joueur j1 = new Joueur("Joueur 1");
         Joueur j2 = new Joueur("Joueur 2");
