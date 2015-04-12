@@ -14,16 +14,37 @@ public class ServeurJeu {
     private String adresseIp;
     private int port;
     private String nom;
+    private String etat;
     
     public ServeurJeu(String adresseIp, int port) {
         this.adresseIp = adresseIp;
         this.port = port;
-        this.nom = "Sans nom";
+        this.nom = "Récupération en cours...";
+        this.etat = "Récupération en cours...";
     }
     
-    @Override
-    public String toString() {
-        return this.adresseIp + ":" + String.valueOf(this.port) + " - En attente de joueurs...";
+    public String getAdresseIp() {
+        return this.adresseIp;
     }
-    
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getNom() {
+        return nom;
+    }  
+
+    public String getEtat() {
+        return etat;
+    }    
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
 }

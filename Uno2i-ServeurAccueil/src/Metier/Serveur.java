@@ -44,19 +44,12 @@ public class Serveur extends Thread {
         while(this.socketServeurAccueil != null && !Thread.currentThread().isInterrupted()) {
             try {
                 this.socketServeurJeu = socketServeurAccueil.accept();
-                ServeurJeu s = new ServeurJeu(this.socketServeurJeu.getInetAddress().toString(), this.socketServeurJeu.getPort());
-                Thread t = new ConnexionServeur(socketServeurJeu, listeServeurs);
-                t.start();
+                ServeurJeu s = new ServeurJeu(this.socketServeurJeu.getInetAddress().toString().split("/")[1], this.socketServeurJeu.getPort());
+                Thread t = new ConnexionServeur(socketServeurJeu, listeServeurs, s);                
+                t.start();  
                 
-                //Icon serveurImage = new ImageIcon(ServeurAccueil.class.getResource("**Images/icon-serveur.png"));
-                System.out.println(getClass().getClassLoader().getResource("Images/icon-serveur.png").getPath());
-                Icon serveurImage = new ImageIcon(getClass().getClassLoader().getResource("Images/icon-serveur.png"));
-                JLabel serveurLabel = new JLabel(s.toString(), serveurImage, JLabel.LEFT);
-                JPanel serveurPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                serveurPanel.add(serveurLabel);
-
-                this.listeServeurs.addElement(serveurPanel);
-                
+                System.out.println("Il va être ajouté dans un instant...");
+                this.listeServeurs.addElement(s);                
                 System.out.println("Element ajouté!");
             }
             catch(IOException e) {
