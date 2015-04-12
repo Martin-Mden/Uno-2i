@@ -15,10 +15,11 @@ import java.util.Collections;
 public class Pioche {
     
     private ArrayList<Carte> listeCartesJeu;
+    private Carte defausse;
     
     public Pioche() {
         
-        System.out.println("[Pioche] Création de la pioche.");
+        System.out.println("[Pioche] Création de la pioche. Ajout des 108 cartes du jeu...");
         // Ajout des cartes au jeu
         this.listeCartesJeu = new ArrayList<>();
         
@@ -159,6 +160,14 @@ public class Pioche {
     
     public ArrayList<Carte> getCartes() {
         return this.listeCartesJeu;
+    }
+    
+    public Carte getDefausse() {
+        return this.defausse;
+    }
+    
+    public void setDefausse(Carte c) {
+        this.defausse = c;
     }
     
     public Carte piocher() {

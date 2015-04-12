@@ -23,7 +23,7 @@ public class Main {
         return this.listeCartesEnMain;
     }
     
-    public void addCartes(Carte c) {
+    public void ajouterCarte(Carte c) {
         this.listeCartesEnMain.add(c);
     }
     

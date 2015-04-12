@@ -15,7 +15,7 @@ public class Carte {
     
     public Carte(String id) {
         this.id = id;
-        System.out.println("[Carte] Ajout de la carte \"" + id + "\".");
+        //System.out.println("[Carte] Ajout de la carte \"" + id + "\".");
     }
     
     public String getId() {

@@ -16,7 +16,7 @@ public class Joueur {
     private Main mainJoueur;
     
     public Joueur(String nom) {
-        System.out.println("[Joueur] Création du joueur \"" + nom + "\".");
+        //System.out.println("[Joueur] Création du joueur \"" + nom + "\".");
         this.nom = nom;
         this.mainJoueur = new Main();
     }

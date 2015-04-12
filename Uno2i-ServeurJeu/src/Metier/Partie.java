@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class Partie {
     
-    private String libelle;
     private ArrayList<Joueur> listeJoueurs;
     private Tour tourActuel;
     private Pioche pioche;
@@ -24,44 +23,51 @@ public class Partie {
     }
     
     public Partie(String libelle) { 
-        this.libelle = libelle;
         this.listeJoueurs = new ArrayList<>();
-        System.out.println("[Partie] Création de la partie \"" + libelle + "\".");        
+        //System.out.println("[Partie] Création de la partie \"" + libelle + "\".");        
     }
     
     public ArrayList<Joueur> getJoueurs() {
         return this.listeJoueurs;
     }
     
-    public String getLibelle() {
-        return this.libelle;
-    }
-    
     public void ajouterJoueur(Joueur j) {
         this.listeJoueurs.add(j);
-        System.out.println("[Partie] Ajout du joueur \"" + j.getNom() + "\" à la partie \"" + this.getLibelle() + "\".");
+        System.out.println("[Partie] Connexion de \"" + j.getNom() + "\" à la partie.");
+    }
+    
+    public Pioche getPioche() {
+        return this.pioche;
     }
     
     public void initialiser() {
         
         this.pioche = new Pioche();
-        this.tourActuel = new Tour(true, this.getJoueurs(), 0);
-        
+
         System.out.println("[Partie] Distribution des cartes...");
-        // Pioche de 6 cartes de test
+
+        for(int compteur = 0; compteur < 7; compteur++) {
+            for(Joueur j : this.getJoueurs()) {
+                j.getMain().ajouterCarte(this.getPioche().piocher());
+            }
+        }
         
         System.out.println("");
         for(Joueur j : this.getJoueurs()) {
-            for(int compteur = 0; compteur < 7; compteur++) {
-                j.getMain().getCartes().add(this.pioche.piocher());
-            }
-            
             System.out.println("Contenu de la main du joueur \"" + j.getNom() + "\" :");
             for(Carte c : j.getMain().getCartes()) {
                 System.out.print(c.getId() + ", ");
             }
             System.out.println("");
         }
+        
+        System.out.println("");
+        
+        this.getPioche().setDefausse(this.getPioche().piocher());
+        System.out.println("Carte retournée en défausse : " + this.getPioche().getDefausse().getId());
+   
+        System.out.println("");
+        this.tourActuel = new Tour(true, this.getJoueurs(), 0);
     }
     
 }
