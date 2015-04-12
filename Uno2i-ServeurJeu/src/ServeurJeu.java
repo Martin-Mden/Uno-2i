@@ -144,7 +144,7 @@ public class ServeurJeu extends javax.swing.JFrame {
         if(!nomServeur.getText().isEmpty()) {
             nomServeur.setEnabled(false);
             
-            serveur = new Serveur();
+            serveur = new Serveur(nomServeur.getText());
             serveur.start();
 
             demarrerBouton.setEnabled(false);

@@ -11,9 +11,12 @@ import java.net.ServerSocket;
 public class Serveur extends Thread {
     
     ServerSocket srvsocket;
+    private String etat;
+    private String nom;
     
-    public Serveur() {
-             
+    public Serveur(String nom) {
+        this.nom = nom;
+        this.etat = "En attente de joueurs...";
     }
     
     @Override
@@ -31,7 +34,7 @@ public class Serveur extends Thread {
         }
         
         // Notification de mise en ligne au serveur d'accueil
-        Notification notif = new Notification();
+        Notification notif = new Notification(nom, etat);
         notif.start();
         
         System.out.println("[Serveur] Création des joueurs...");
