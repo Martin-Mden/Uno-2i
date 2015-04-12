@@ -1,3 +1,5 @@
+package GUI;
+
 
 import Metier.Serveur;
 import Outils.CustomOutputStream;
