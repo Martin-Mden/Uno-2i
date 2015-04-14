@@ -20,6 +20,11 @@ public class ServeurAccueil extends JFrame {
     Serveur serveur;
     DefaultListModel listeServeursJeu, listeClientsConnectes;    
     
+    public static void actualiser() {
+        ServeurAccueil.getFrames()[0].repaint();
+    }
+    
+    
     /**
      * Creates new form ServeurAccueil
      */

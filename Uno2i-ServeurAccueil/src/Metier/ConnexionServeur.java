@@ -5,6 +5,7 @@
  */
 package Metier;
 
+import GUI.ServeurAccueil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -57,10 +58,9 @@ public class ConnexionServeur extends Thread {
                         // Mise à jour 
                         ServeurJeu s = (ServeurJeu)this.listeServeurs.get(this.listeServeurs.indexOf(this.serveurJeu));
                         s.setNom(trameContenu.split(";")[0]);
-                        s.setEtat(trameContenu.split(";")[1]);
+                        s.setEtat(trameContenu.split(";")[1]);  
                         
-                        System.out.println("Serveur mis à jour.");
-                        
+                        ServeurAccueil.actualiser();
                     }
                 }
             }
