@@ -18,15 +18,19 @@ import javax.swing.DefaultListModel;
 public class ConnexionClient extends Thread {
     
     private Socket socketClient;
-    private DefaultListModel listeServeurs;
+    private DefaultListModel listeServeurs, listeClients;
     private BufferedReader in;
     private String trame;
+    private Utilisateur utilisateur;
     
-    public ConnexionClient(Socket socketClient, DefaultListModel listeServeurs) {
+    public ConnexionClient(Socket socketClient, DefaultListModel listeServeurs, DefaultListModel listeClients, Utilisateur utilisateur) {
         this.socketClient = socketClient;
         this.listeServeurs = listeServeurs;
+        this.listeClients = listeClients;   
+        this.utilisateur = utilisateur;
         
         System.out.println("[ConnexionClient] Un client s'est connecté.");
+        this.listeClients.addElement(utilisateur.getPseudo());
     }
     
     @Override
@@ -50,7 +54,7 @@ public class ConnexionClient extends Thread {
                     System.out.println("Il s'agit d'une trame de connexion/inscription venant d'un client.");
                     if(trameEnTete.charAt(2) == 'C') {
                         System.out.println("Ils'agit d'une connexion");
-                        System.out.println("Contenu/ Pseudo : " + trameContenu.split(";")[0]);                                                                           
+                        System.out.println("Contenu/ Pseudo : " + trameContenu.split(";")[0]); 
                     }
                 }
             }

@@ -18,10 +18,11 @@ public class Serveur extends Thread {
     
     ServerSocket socketServeurAccueil;
     Socket socketServeurJeu;
-    DefaultListModel listeServeurs;
+    DefaultListModel listeServeurs, listeClients;
     
-    public Serveur(DefaultListModel listeServeurs) {
+    public Serveur(DefaultListModel listeServeurs, DefaultListModel listeClients) {
         this.listeServeurs = listeServeurs;
+        this.listeClients = listeClients;
     }
     
     @Override
@@ -39,7 +40,7 @@ public class Serveur extends Thread {
             try {
                 this.socketServeurJeu = socketServeurAccueil.accept();         
                 
-                Thread t = new AccueilConnexion(socketServeurJeu, listeServeurs);                
+                Thread t = new AccueilConnexion(socketServeurJeu, listeServeurs, listeClients);                
                 t.start();  
             }
             catch(IOException e) {

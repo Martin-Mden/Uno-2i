@@ -18,13 +18,14 @@ import javax.swing.DefaultListModel;
 public class AccueilConnexion extends Thread {
     
     private Socket socket;
-    private DefaultListModel listeServeurs;
+    private DefaultListModel listeServeurs, listeClients;
     private BufferedReader in;
     private String trame;
     
-    public AccueilConnexion(Socket socket, DefaultListModel listeServeurs) {
+    public AccueilConnexion(Socket socket, DefaultListModel listeServeurs, DefaultListModel listeClients) {
         this.socket = socket;
         this.listeServeurs = listeServeurs;
+        this.listeClients = listeClients;
     }
     
     @Override
@@ -64,7 +65,8 @@ public class AccueilConnexion extends Thread {
                         System.out.println("Il s'agit d'une connexion");
                         System.out.println("Contenu/ Pseudo : " + trameContenu.split(";")[0]); 
                         
-                        Thread t = new ConnexionClient(socket, listeServeurs);
+                        Utilisateur utilisateur = new Utilisateur(trameContenu.split(";")[0]);
+                        Thread t = new ConnexionClient(socket, listeServeurs, listeClients, utilisateur);
                         t.start();
                         reparti = true;
                     }
