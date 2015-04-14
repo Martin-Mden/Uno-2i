@@ -13,12 +13,39 @@ public class Pioche {
     private ArrayList<Carte> listeCartesJeu;
     private Carte defausse;
     
-    public Pioche() {
-        
-        System.out.println("[Pioche] Création de la pioche. Ajout des 108 cartes du jeu...");
-        // Ajout des cartes au jeu
+    public Pioche() {   
         this.listeCartesJeu = new ArrayList<>();
         
+        this.alimenterCartes();
+        this.melanger();
+    }
+            
+    public final void melanger() {
+        // Mélange de la pioche
+        System.out.println("[Pioche] Mélange...");
+        Collections.shuffle(this.getCartes());
+    }
+    
+    public ArrayList<Carte> getCartes() {
+        return this.listeCartesJeu;
+    }
+    
+    public Carte getDefausse() {
+        return this.defausse;
+    }
+    
+    public void setDefausse(Carte c) {
+        this.defausse = c;
+    }
+    
+    public Carte piocher() {
+        Carte cartePiochee = this.getCartes().get(0);
+        this.getCartes().remove(0);
+        return cartePiochee;
+    }
+    
+    public final void alimenterCartes() {
+        System.out.println("[Pioche] Création de la pioche. Ajout des 108 cartes du jeu...");
         // Bleu
         this.listeCartesJeu.add(new Carte("#B0"));
         this.listeCartesJeu.add(new Carte("#B1"));
@@ -146,32 +173,6 @@ public class Pioche {
         this.listeCartesJeu.add(new Carte("JJJ"));
         this.listeCartesJeu.add(new Carte("JJJ"));
         */
-        
-        this.melanger();
-    }
-            
-    public final void melanger() {
-        // Mélange de la pioche
-        System.out.println("[Pioche] Mélange...");
-        Collections.shuffle(listeCartesJeu);
-    }
-    
-    public ArrayList<Carte> getCartes() {
-        return this.listeCartesJeu;
-    }
-    
-    public Carte getDefausse() {
-        return this.defausse;
-    }
-    
-    public void setDefausse(Carte c) {
-        this.defausse = c;
-    }
-    
-    public Carte piocher() {
-        Carte cartePiochee = this.getCartes().get(0);
-        this.getCartes().remove(0);
-        return cartePiochee;
     }
     
 }
