@@ -6,6 +6,7 @@
 package GUI;
 
 import Metier.Connexion;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Guillaume
@@ -17,6 +18,8 @@ public class Client extends javax.swing.JFrame {
      */
     public Client() {
         initComponents();
+        
+        this.setLocationRelativeTo(this.getParent()); 
     }
 
     /**
@@ -28,17 +31,24 @@ public class Client extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        textField1 = new java.awt.TextField();
-        button1 = new java.awt.Button();
+        saisiePseudo = new javax.swing.JTextField();
+        boutonConnexion = new javax.swing.JButton();
+        boutonDeconnexion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textField1.setText("textField1");
-
-        button1.setLabel("Envoyer");
-        button1.addActionListener(new java.awt.event.ActionListener() {
+        boutonConnexion.setText("Connexion");
+        boutonConnexion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                boutonConnexionActionPerformed(evt);
+            }
+        });
+
+        boutonDeconnexion.setText("Déconnecté");
+        boutonDeconnexion.setEnabled(false);
+        boutonDeconnexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonDeconnexionActionPerformed(evt);
             }
         });
 
@@ -47,30 +57,56 @@ public class Client extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(saisiePseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addComponent(boutonConnexion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(boutonDeconnexion)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saisiePseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boutonConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boutonDeconnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(235, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        // TODO add your handling code here:
-        Connexion con = new Connexion(this.textField1.getText());
-        con.start();
-    }//GEN-LAST:event_button1ActionPerformed
+    private void boutonConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonConnexionActionPerformed
+        if(!this.saisiePseudo.getText().isEmpty()) {
+            Connexion con = new Connexion(this.saisiePseudo.getText());
+            con.start();
+            
+            // Empêcher de nouvelles connexion
+            this.boutonConnexion.setEnabled(false);            
+            this.saisiePseudo.setEnabled(false);
+            
+            this.boutonConnexion.setText("Connecté");
+            this.boutonDeconnexion.setText("Déconnexion");
+            
+            this.boutonDeconnexion.setEnabled(true);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Veuillez saisir un pseudo.");
+        }
+    }//GEN-LAST:event_boutonConnexionActionPerformed
+
+    private void boutonDeconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonDeconnexionActionPerformed
+        this.boutonDeconnexion.setEnabled(false);
+        this.saisiePseudo.setEnabled(true);
+
+        this.boutonConnexion.setText("Connecté");
+        this.boutonDeconnexion.setText("Déconnexion");
+        
+        this.boutonConnexion.setEnabled(true);        
+    }//GEN-LAST:event_boutonDeconnexionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -108,7 +144,8 @@ public class Client extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button button1;
-    private java.awt.TextField textField1;
+    private javax.swing.JButton boutonConnexion;
+    private javax.swing.JButton boutonDeconnexion;
+    private javax.swing.JTextField saisiePseudo;
     // End of variables declaration//GEN-END:variables
 }
