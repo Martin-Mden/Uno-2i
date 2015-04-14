@@ -13,6 +13,8 @@ public class Serveur extends Thread {
     ServerSocket srvsocket;
     private String etat;
     private String nom;
+    private Regles regle;
+    Partie jeu;
     
     public Serveur(String nom) {
         this.nom = nom;
@@ -44,17 +46,22 @@ public class Serveur extends Thread {
         Joueur j4 = new Joueur("Joueur 4");
         
         System.out.println("[Serveur] Création de la partie et ajout des joueurs...");
-        Partie jeu = new Partie();
+        jeu = new Partie();
         jeu.ajouterJoueur(j1);
         jeu.ajouterJoueur(j2);
         jeu.ajouterJoueur(j3);
         jeu.ajouterJoueur(j4);
         
         jeu.initialiser();
+        regle = new Regles(jeu);
     }
     
     public void stopper() {
         System.out.println("[Serveur] Serveur stoppé.");
+    }
+    
+    public boolean test(String c){
+        return regle.verifier(jeu.getJoueurs().get(0), new Carte(c));
     }
     
 }

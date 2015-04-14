@@ -21,6 +21,10 @@ public class Partie {
         this("Sans libellé");
 
     }
+
+    public Tour getTourActuel() {
+        return tourActuel;
+    }
     
     public Partie(String libelle) { 
         this.listeJoueurs = new ArrayList<>();
