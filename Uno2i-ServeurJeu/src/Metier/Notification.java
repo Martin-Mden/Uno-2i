@@ -41,7 +41,7 @@ public class Notification extends Thread {
         }
         
         //while(true) {
-            this.out.println("ISW/" + this.nom + ";" + this.etat);
+            this.out.println("ISW/" + this.nom + ";" + this.etat + ";" + this.socketServeurAccueil.getLocalPort());
             
         //}
     }

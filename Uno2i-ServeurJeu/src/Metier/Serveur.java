@@ -25,7 +25,7 @@ public class Serveur extends Thread {
         // Configuration du serveur
         try {
             System.out.println("[Serveur] Serveur en cours de démarrage...");   
-            srvsocket = new ServerSocket(0); // Ecoute sur n'importe quel port libre
+            srvsocket = new ServerSocket(0);
             
             System.out.println("[Serveur] Serveur démarré sur le port " + srvsocket.getLocalPort() + ".");
         }
@@ -56,5 +56,5 @@ public class Serveur extends Thread {
     public void stopper() {
         System.out.println("[Serveur] Serveur stoppé.");
     }
-    
+     
 }
