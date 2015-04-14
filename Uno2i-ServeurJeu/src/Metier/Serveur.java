@@ -33,8 +33,12 @@ public class Serveur extends Thread {
             System.err.println("[Serveur] Impossible de créer le socket serveur : " + e.getMessage());
         }
         
+        ServeurJeu s = new ServeurJeu(this.srvsocket.getInetAddress().toString().split("/")[1], this.srvsocket.getLocalPort());
+        s.setEtat("En attente de joueurs...");
+        s.setNom(this.nom);
+        
         // Notification de mise en ligne au serveur d'accueil
-        Notification notif = new Notification(nom, etat);
+        Notification notif = new Notification(s);
         notif.start();
         
         System.out.println("[Serveur] Création des joueurs...");
