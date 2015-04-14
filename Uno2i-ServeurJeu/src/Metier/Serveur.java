@@ -3,6 +3,8 @@ package Metier;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +29,7 @@ public class Serveur extends Thread {
         // Configuration du serveur
         try {
             System.out.println("[Serveur] Serveur en cours de démarrage...");   
-            srvsocket = new ServerSocket(0); // Ecoute sur n'importe quel port libre
+            srvsocket = new ServerSocket(0);
             
             System.out.println("[Serveur] Serveur démarré sur le port " + srvsocket.getLocalPort() + ".");
         }
@@ -35,9 +37,19 @@ public class Serveur extends Thread {
             System.err.println("[Serveur] Impossible de créer le socket serveur : " + e.getMessage());
         }
         
+        ServeurJeu s = new ServeurJeu(this.srvsocket.getInetAddress().toString().split("/")[1], this.srvsocket.getLocalPort());
+        s.setEtat("En attente de joueurs...");
+        s.setNom(this.nom);
+        
         // Notification de mise en ligne au serveur d'accueil
-        Notification notif = new Notification(nom, etat);
+        Notification notif = new Notification(s);
         notif.start();
+        
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         System.out.println("[Serveur] Création des joueurs...");
         Joueur j1 = new Joueur("Joueur 1");
@@ -52,7 +64,11 @@ public class Serveur extends Thread {
         jeu.ajouterJoueur(j3);
         jeu.ajouterJoueur(j4);
         
+        s.setEtat("Initialisation de la partie...");
+        
         jeu.initialiser();
+        
+        s.setEtat("Partie en cours.");
         regle = new Regles(jeu);
     }
     
@@ -64,4 +80,5 @@ public class Serveur extends Thread {
         return regle.verifier(jeu.getJoueurs().get(0), new Carte(c));
     }
     
+     
 }

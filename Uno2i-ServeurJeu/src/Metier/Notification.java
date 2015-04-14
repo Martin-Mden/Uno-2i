@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,13 +18,13 @@ import java.net.UnknownHostException;
  */
 public class Notification extends Thread {
     
-    Socket socketServeurAccueil;
-    PrintWriter out;
+    private Socket socketServeurAccueil;
+    private PrintWriter out;
     private String etat, nom;
+    private ServeurJeu serveur;
     
-    public Notification(String nom, String etat) {
-        this.nom = nom;
-        this.etat = etat;
+    public Notification(ServeurJeu serveur) {
+        this.serveur = serveur;
     }
     
     @Override
@@ -40,10 +42,14 @@ public class Notification extends Thread {
             System.err.println("[Notification] Impossible de se connecter au serveur d'accueil : " + e.getMessage());
         }
         
-        //while(true) {
-            this.out.println("ISW/" + this.nom + ";" + this.etat);
-            
-        //}
+        while(true) {
+            this.out.println("ISW/" + serveur.getNom() + ";" + serveur.getEtat() + ";" + String.valueOf(serveur.getPort()));            
+            try {
+                sleep(15000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Notification.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
 }
