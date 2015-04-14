@@ -5,16 +5,10 @@
  */
 package Metier;
 
-import GUI.ServeurAccueil;
-import java.awt.FlowLayout;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -43,14 +37,10 @@ public class Serveur extends Thread {
         // En l'attente de connexion d'un serveur de jeu
         while(this.socketServeurAccueil != null && !Thread.currentThread().isInterrupted()) {
             try {
-                this.socketServeurJeu = socketServeurAccueil.accept();
-                ServeurJeu s = new ServeurJeu(this.socketServeurJeu.getInetAddress().toString().split("/")[1], this.socketServeurJeu.getPort());
-                Thread t = new ConnexionServeur(socketServeurJeu, listeServeurs, s);                
-                t.start();  
+                this.socketServeurJeu = socketServeurAccueil.accept();         
                 
-                System.out.println("Il va être ajouté dans un instant...");
-                this.listeServeurs.addElement(s);                
-                System.out.println("Element ajouté!");
+                Thread t = new AccueilConnexion(socketServeurJeu, listeServeurs);                
+                t.start();  
             }
             catch(IOException e) {
                 System.err.println("[Serveur] Une tentative de connexion à échoué.");
