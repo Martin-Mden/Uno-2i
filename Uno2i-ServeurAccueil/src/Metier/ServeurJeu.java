@@ -47,4 +47,8 @@ public class ServeurJeu {
         this.etat = etat;
     }
 
+    @Override
+    public String toString() {
+        return "<html><b>" + this.getNom() + "</b> (" + this.getAdresseIp() + ":" + String.valueOf(this.getPort()) + ") - <i><font color=gray>" + this.getEtat() + "</font></i></html>";
+    }    
 }

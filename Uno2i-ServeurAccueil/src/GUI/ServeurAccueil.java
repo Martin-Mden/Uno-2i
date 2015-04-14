@@ -28,7 +28,7 @@ public class ServeurAccueil extends JFrame {
         initComponents();
         
         this.listeServeursJeu = new DefaultListModel();  
-        this.listeServeurs.setCellRenderer(new ServeurListCellRenderer());                                
+        //this.listeServeurs.setCellRenderer(new ServeurListCellRenderer());                                
         this.listeServeurs.setModel(this.listeServeursJeu);
         
         serveur = new Serveur(this.listeServeursJeu);
