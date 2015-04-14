@@ -27,4 +27,13 @@ public class Main {
         this.listeCartesEnMain.add(c);
     }
     
+    public boolean possedeCarte(Carte c) {
+        for(Carte carteMain: this.getCartes()) {
+            if(c.getId().equals(carteMain.getId()))
+                return true;
+        }
+        
+        return false;
+    }
+    
 }

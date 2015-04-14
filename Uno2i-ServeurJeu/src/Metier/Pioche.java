@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Metier;
 
 import java.util.ArrayList;
@@ -107,6 +103,7 @@ public class Pioche {
         this.listeCartesJeu.add(new Carte("#J9"));
         this.listeCartesJeu.add(new Carte("#J9"));
         
+        /* Non gérées pour le moment
         // Cartes +2
         this.listeCartesJeu.add(new Carte("+B2"));
         this.listeCartesJeu.add(new Carte("+B2"));
@@ -148,14 +145,15 @@ public class Pioche {
         this.listeCartesJeu.add(new Carte("JJJ"));
         this.listeCartesJeu.add(new Carte("JJJ"));
         this.listeCartesJeu.add(new Carte("JJJ"));
+        */
         
+        this.melanger();
+    }
+            
+    public final void melanger() {
         // Mélange de la pioche
         System.out.println("[Pioche] Mélange...");
         Collections.shuffle(listeCartesJeu);
-    }
-            
-    public void melanger() {
-        
     }
     
     public ArrayList<Carte> getCartes() {

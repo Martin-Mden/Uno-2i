@@ -23,31 +23,30 @@ public class Regles {
     }
     
     public boolean verifier(Joueur joueur, Carte carteJouee){
-        Joueur leJoueurDuTour = this.partie.getTourActuel().getJoueurActuel();
         //On commence par tester si c'est bien le tour de la bonne personne
-        if(leJoueurDuTour.getNom().equals(joueur.getNom())){
-            //On regarde maintenant si la carte jouée par le joueur est bien dans sa main
-            ArrayList<Carte> listeCartes = leJoueurDuTour.getMain().getCartes();
-            boolean flag = false;
-            for(int i = 0; i < listeCartes.size(); i++){
-                if(listeCartes.get(i).getId().equals(carteJouee.getId()))
-                    flag = true;
-            }
-            //Si ce n'est pas le bon joueur, on refuse sa carte
-            if(flag!=true)
+        if(this.getPartie().getTourActuel().getJoueurActuel().getNom().equals(joueur.getNom())){
+            System.out.println("[Regles] C'est le bon joueur.");
+            
+            //On regarde maintenant si la carte jouée par le joueur est bien dans sa main            
+            if(!joueur.getMain().possedeCarte(carteJouee)) {
+                System.out.println("[Regles] Le joueur ne possède pas la carte " + carteJouee.getId() + ".");
                 return false;
-            
-            
+            }          
+
             //Si c'est une carte chiffre, (passe ton tour, changement de sens ou +2)
-            if(carteJouee.getCouleur()!=this.partie.getPioche().getDefausse().getCouleur())
-                if(carteJouee.getValeur()!=this.partie.getPioche().getDefausse().getValeur())
+            if(!carteJouee.getCouleur().equals(this.partie.getPioche().getDefausse().getCouleur())) {
+                if(!carteJouee.getValeur().equals(this.partie.getPioche().getDefausse().getValeur())) {
                     return false;
-            
+                }
+            }                                    
         }
-        else{
+        else {
+            System.out.println("[Regles] Pas le bon joueur!");
             return false;
         }
+        
         //Toutes les conditions sont OKAYYYY
+        System.out.println("[Regles] Carte correcte, c'est OKAYYY!");
         return true;
     }
 }
