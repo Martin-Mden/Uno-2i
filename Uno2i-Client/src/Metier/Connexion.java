@@ -6,7 +6,10 @@
 package Metier;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -14,24 +17,30 @@ import java.net.ServerSocket;
  */
 public class Connexion extends Thread{
     ServerSocket socketClient;
-
-    public Connexion(ServerSocket socketClient) {
-        this.socketClient = socketClient;
+    Socket socketServeurAccueil;
+    PrintWriter out;
+    String Pseudo;
+    
+    public Connexion(String Pseudo) {
+        this.Pseudo = Pseudo;
     }
     
     @Override
     public void run(){
-        try{
-            System.out.println("[Serveur Client] Le client se connecte");
-            socketClient = new ServerSocket();
-            System.out.println("[Serveur Client] Serveur client démarré sur le port "+socketClient.getLocalPort()+".");
+         // Connexion au serveur d'accueil
+        try {
+            this.socketServeurAccueil = new Socket("127.0.0.1", 2000);
+            this.out = new PrintWriter(this.socketServeurAccueil.getOutputStream(), true);
         }
-        catch(IOException e){
-            System.err.println("[Serveur] Impossible de créer le socket serveur : " + e.getMessage());
+        catch(UnknownHostException e) {
+            System.err.println("[Connexion] Impossible de se connecter au serveur d'accueil (Hôte inconnu) : " + e.getMessage());
+        } 
+        catch (IOException e) {
+            System.err.println("[Connexion] Impossible de se connecter au serveur d'accueil : " + e.getMessage());
         }
-        
-        while(this.socketClient != null && !Thread.currentThread().isInterrupted()) {
-            
-        }
+        String msg = "CCCI/" + this.Pseudo;
+        //while(true) {
+        this.out.println(msg);
+        System.out.println("[Connexion] Trame envoyée : "+msg);
     }
 }
