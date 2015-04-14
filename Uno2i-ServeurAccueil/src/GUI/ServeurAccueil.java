@@ -2,7 +2,6 @@ package GUI;
 
 
 import Metier.Serveur;
-import Outils.ServeurListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
@@ -26,6 +25,8 @@ public class ServeurAccueil extends JFrame {
      */
     public ServeurAccueil() {
         initComponents();
+        
+        this.setLocationRelativeTo(this.getParent()); 
         
         this.listeServeursJeu = new DefaultListModel();  
         //this.listeServeurs.setCellRenderer(new ServeurListCellRenderer());                                
