@@ -3,6 +3,8 @@ package Metier;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +43,12 @@ public class Serveur extends Thread {
         Notification notif = new Notification(s);
         notif.start();
         
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         System.out.println("[Serveur] Création des joueurs...");
         Joueur j1 = new Joueur("Joueur 1");
         Joueur j2 = new Joueur("Joueur 2");
@@ -54,7 +62,11 @@ public class Serveur extends Thread {
         jeu.ajouterJoueur(j3);
         jeu.ajouterJoueur(j4);
         
+        s.setEtat("Initialisation de la partie...");
+        
         jeu.initialiser();
+        
+        s.setEtat("Partie en cours.");
     }
     
     public void stopper() {
