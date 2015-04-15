@@ -1,7 +1,6 @@
 package GUI;
 
 
-import Metier.Partie;
 import Metier.Serveur;
 import Outils.CustomOutputStream;
 import java.io.PrintStream;
@@ -184,6 +183,8 @@ public class ServeurJeu extends javax.swing.JFrame {
 
     private void stopperBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopperBoutonActionPerformed
         serveur.stopper();
+        
+        serveur.deconnecter();
         
         stopperBouton.setEnabled(false);
         stopperBouton.setText("Stoppé");

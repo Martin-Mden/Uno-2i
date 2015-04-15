@@ -43,13 +43,21 @@ public class Notification extends Thread {
         }
         
         while(true) {
-            this.out.println("ISW/" + serveur.getNom() + ";" + serveur.getEtat() + ";" + String.valueOf(serveur.getPort()));            
+            this.notifier();
             try {
                 sleep(15000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Notification.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void deconnecter() {
+        this.out.println("ISAI/");
+    }
+    
+    public void notifier() {
+        this.out.println("ISW/" + serveur.getNom() + ";" + serveur.getEtat() + ";" + String.valueOf(serveur.getPort()));            
     }
     
 }

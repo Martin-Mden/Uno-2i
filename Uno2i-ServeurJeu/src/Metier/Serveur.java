@@ -12,11 +12,12 @@ import java.util.logging.Logger;
  */
 public class Serveur extends Thread {
     
-    ServerSocket srvsocket;
+    private ServerSocket srvsocket;
     private String etat;
     private String nom;
     private Regles regle;
-    Partie jeu;
+    private Partie jeu;
+    private Notification notif;
     
     public Serveur(String nom) {
         this.nom = nom;
@@ -42,7 +43,7 @@ public class Serveur extends Thread {
         s.setNom(this.nom);
         
         // Notification de mise en ligne au serveur d'accueil
-        Notification notif = new Notification(s);
+        notif = new Notification(s);
         notif.start();
         
         try {
@@ -65,10 +66,12 @@ public class Serveur extends Thread {
         jeu.ajouterJoueur(j4);
         
         s.setEtat("Initialisation de la partie...");
+        notif.notifier();
         
         jeu.initialiser();
         
         s.setEtat("Partie en cours.");
+        notif.notifier();
         regle = new Regles(jeu);
     }
     
@@ -78,6 +81,10 @@ public class Serveur extends Thread {
     
     public boolean test(String c){
         return regle.verifier(jeu.getJoueurs().get(0), new Carte(c));
+    }
+    
+    public void deconnecter() {
+        notif.deconnecter();
     }
     
      
