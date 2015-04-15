@@ -33,11 +33,18 @@ public class Tour {
     }
     
     public Joueur getJoueurSuivant() {
-        if((this.indexJoueurActuel+1) != (ordreJoueurs.size() - 1))
+        if((this.indexJoueurActuel+1) != (ordreJoueurs.size()))
             return ordreJoueurs.get(this.indexJoueurActuel+1);
         else
-            return this.tourSuivant().getJoueurSuivant();
+            return this.tourSuivant().getJoueurActuel();
     }  
+    
+    public void setJoueurSuivant(){
+        if((this.indexJoueurActuel+1) != (ordreJoueurs.size()))
+            this.indexJoueurActuel++;
+        else
+            this.indexJoueurActuel = this.tourSuivant().indexJoueurActuel;
+    }
     
     public Joueur getJoueurActuel() {
         return ordreJoueurs.get(this.indexJoueurActuel);
@@ -48,7 +55,10 @@ public class Tour {
     }
     
     public Tour tourSuivant() {
-        return new Tour(this.sensNormal, this.ordreJoueurs, this.indexJoueurActuel);
+        if(this.sensNormal)
+            return new Tour(this.sensNormal, this.ordreJoueurs, 0);
+        else
+            return new Tour(this.sensNormal, this.ordreJoueurs, this.ordreJoueurs.size());
     }
     
 }

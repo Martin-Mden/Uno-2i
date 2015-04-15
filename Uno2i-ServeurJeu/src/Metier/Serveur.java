@@ -83,6 +83,10 @@ public class Serveur extends Thread {
         return regle.verifier(jeu.getJoueurs().get(0), new Carte(c));
     }
     
+    public boolean poserCarte(String c){
+        return jeu.jouer(new Carte(c), jeu.getTourActuel().getJoueurActuel());
+    }
+    
     public void deconnecter() {
         notif.deconnecter();
     }

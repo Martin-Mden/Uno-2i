@@ -32,4 +32,11 @@ public class Main {
         return false;
     }
     
+    public void supprimerCarteMainJoueur(Carte c){
+        if(!this.listeCartesEnMain.remove(c))
+            System.out.println("[Main] ça ne supprime pas");
+        else
+            System.out.println("[Main] ça supprime");
+    }
+    
 }

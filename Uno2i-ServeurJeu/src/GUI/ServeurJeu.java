@@ -204,9 +204,9 @@ public class ServeurJeu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(!serveur.test(this.jTextField1.getText()))
+        if(!serveur.poserCarte(this.jTextField1.getText()))
         {
-            JOptionPane.showMessageDialog(null, "Mauvaise carte");
+            JOptionPane.showMessageDialog(null, "Carte non posée");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

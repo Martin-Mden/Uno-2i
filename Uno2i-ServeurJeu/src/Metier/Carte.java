@@ -5,6 +5,8 @@
  */
 package Metier;
 
+import java.util.Objects;
+
 /**
  *
  * @author Martin
@@ -41,5 +43,28 @@ public class Carte {
     public String getValeur() {
         return valeur;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carte other = (Carte) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }
