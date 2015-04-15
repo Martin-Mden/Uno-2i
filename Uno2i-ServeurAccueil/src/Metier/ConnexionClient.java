@@ -22,12 +22,14 @@ public class ConnexionClient extends Thread {
     private BufferedReader in;
     private String trame;
     private Utilisateur utilisateur;
+    private boolean connecte;
     
     public ConnexionClient(Socket socketClient, DefaultListModel listeServeurs, DefaultListModel listeClients, Utilisateur utilisateur) {
         this.socketClient = socketClient;
         this.listeServeurs = listeServeurs;
-        this.listeClients = listeClients;   
+        this.listeClients = listeClients;
         this.utilisateur = utilisateur;
+        this.connecte = true;
         
         System.out.println("[ConnexionClient] Un client s'est connecté.");
         this.listeClients.addElement(utilisateur.getPseudo());
@@ -40,29 +42,42 @@ public class ConnexionClient extends Thread {
             this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
             String trameEnTete, trameContenu;
             
-            while((trame = this.in.readLine()) != null) {
+            while(connecte && (trame = this.in.readLine()) != null) {
                 
-                System.out.println("Trame reçu!");
+                System.out.println("[ConnexionClient] Trame reçu : " + trame.split("/")[0]);
                 
                 // Analyse de la trame
                 trameEnTete = trame.split("/")[0];
-                trameContenu = trame.split("/")[1];
                 
-                System.out.println("En-tête : " + trameEnTete);
-                System.out.println("Contenu : " + trameContenu);
+                trameContenu = "";
+                if(trame.split("/").length != 1)
+                    trameContenu = trame.split("/")[1];
+                else
+                    System.out.println("[ConnexionClient] Trame sans contenu.");
+                
                 if(trameEnTete.charAt(0) == 'C' && trameEnTete.charAt(1) == 'C') {
-                    System.out.println("Il s'agit d'une trame de connexion/inscription venant d'un client.");
+                    System.out.println("[ConnexionClient] Il s'agit d'une trame de connexion/inscription venant d'un client.");
                     if(trameEnTete.charAt(2) == 'C') {
-                        System.out.println("Ils'agit d'une connexion");
-                        System.out.println("Contenu/ Pseudo : " + trameContenu.split(";")[0]); 
+                        System.out.println("[ConnexionClient] Il s'agit d'une connexion");
+                        System.out.println("[ConnexionClient] Contenu/ Pseudo : " + trameContenu.split(";")[0]); 
+                    }
+                    else if(trameEnTete.charAt(2) == 'D' && trameEnTete.charAt(3) == 'I') {
+                        // Déconnexion de l'utilisateur
+                        connecte = false;
                     }
                 }
             }
+            
+            listeClients.removeElement(utilisateur.getPseudo());
+            System.out.println("[ConnexionClient] Un client s'est déconnecté.");
         }
         catch(IOException e) {
             System.err.println("[ConnexionClient] Erreur de communication avec le client : " + e);
+            
+            listeClients.removeElement(utilisateur.getPseudo());
+            System.out.println("[ConnexionClient] Un client a été déconnecté prématurément.");
         }
-        
+
     }
 
 }

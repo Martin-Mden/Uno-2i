@@ -39,13 +39,19 @@ public class ConnexionServeur extends Thread {
         try {
             this.in = new BufferedReader(new InputStreamReader(socketServeurJeu.getInputStream()));
             String trameEnTete, trameContenu;
+            boolean demarre = true;
             
-            while((trame = this.in.readLine()) != null) {
+            while(demarre && (trame = this.in.readLine()) != null) {
                 
                 System.out.println("Trame reçu!");
                 // Analyse de la trame
                 trameEnTete = trame.split("/")[0];
-                trameContenu = trame.split("/")[1];
+                
+                trameContenu = "";
+                if(trame.split("/").length != 1)
+                    trameContenu = trame.split("/")[1];
+                else
+                    System.out.println("[ConnexionClient] Trame sans contenu.");
                 
                 System.out.println("En-tête : " + trameEnTete);
                 System.out.println("Contenu : " + trameContenu);
@@ -62,11 +68,20 @@ public class ConnexionServeur extends Thread {
                         
                         ServeurAccueil.actualiser();
                     }
+                    else if(trameEnTete.charAt(2) == 'A' && trameEnTete.charAt(3) == 'I') {
+                        System.out.println("[ConnexionServeur] Le serveur de jeu informe de sa fermeture");
+                        demarre = false;
+                    }
                 }
             }
+            
+            this.listeServeurs.removeElement(serveurJeu);
         }
         catch(IOException e) {
             System.err.println("[ConnexionServeur] Erreur de communication avec le serveur de jeu " + e);
+            
+            this.listeServeurs.removeElement(serveurJeu);
+            System.out.println("[ConnexionServeur] Un serveur de jeu a été déconnecté prématurément.");
         }
         
     }

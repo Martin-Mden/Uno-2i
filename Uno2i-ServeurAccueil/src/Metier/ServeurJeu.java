@@ -5,6 +5,8 @@
  */
 package Metier;
 
+import java.util.Objects;
+
 /**
  *
  * @author Martin
@@ -51,4 +53,31 @@ public class ServeurJeu {
     public String toString() {
         return "<html><b>" + this.getNom() + "</b> (" + this.getAdresseIp() + ":" + String.valueOf(this.getPort()) + ") - <i><font color=gray>" + this.getEtat() + "</font></i></html>";
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.adresseIp);
+        hash = 61 * hash + this.port;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ServeurJeu other = (ServeurJeu) obj;
+        if (!Objects.equals(this.adresseIp, other.adresseIp)) {
+            return false;
+        }
+        if (this.port != other.port) {
+            return false;
+        }
+        return true;
+    }
+
 }
