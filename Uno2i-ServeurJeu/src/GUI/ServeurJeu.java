@@ -4,6 +4,7 @@ package GUI;
 import Metier.Serveur;
 import Outils.CustomOutputStream;
 import java.io.PrintStream;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /*
@@ -26,7 +27,8 @@ public class ServeurJeu extends javax.swing.JFrame {
     public ServeurJeu() {
         initComponents();
         
-        this.setLocationRelativeTo(this.getParent()); 
+        this.setLocationRelativeTo(this.getParent());
+        this.setIconImage(getToolkit().getImage(getClass().getClassLoader().getResource("Images/icon-serveur.png")));
         
         // Redirection des messages de la console vers l'interface graphique
         PrintStream infoPrintStream = new PrintStream(new CustomOutputStream(infoConsole));
@@ -59,7 +61,7 @@ public class ServeurJeu extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("STOPPÉ - Serveur de jeu \"Salon #1\"");
+        setTitle("STOPPÉ - Serveur de jeu");
 
         labelNomServeur.setText("Nom du serveur : ");
 
