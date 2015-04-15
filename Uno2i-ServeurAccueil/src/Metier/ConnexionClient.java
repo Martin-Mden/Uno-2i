@@ -8,6 +8,7 @@ package Metier;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import javax.swing.DefaultListModel;
 
@@ -20,6 +21,7 @@ public class ConnexionClient extends Thread {
     private Socket socketClient;
     private DefaultListModel listeServeurs, listeClients;
     private BufferedReader in;
+    private PrintWriter out;
     private String trame;
     private Utilisateur utilisateur;
     private boolean connecte;
@@ -40,6 +42,7 @@ public class ConnexionClient extends Thread {
         
         try {
             this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+            this.out = new PrintWriter(this.socketClient.getOutputStream(), true);
             String trameEnTete, trameContenu;
             
             while(connecte && (trame = this.in.readLine()) != null) {
@@ -64,6 +67,19 @@ public class ConnexionClient extends Thread {
                     else if(trameEnTete.charAt(2) == 'D' && trameEnTete.charAt(3) == 'I') {
                         // Déconnexion de l'utilisateur
                         connecte = false;
+                    }
+                    else if(trameEnTete.charAt(2) == 'A' && trameEnTete.charAt(3) == 'I') {
+                        // Demande d'envoi des informations actualisées
+                        System.out.println("[ConnexionClient] Demande d'actualisation reçu, on envoi les infos...");
+                        String msg = "CLAR/";
+                        for(int i = 0; i < this.listeServeurs.size(); i++) {
+                            msg += ((ServeurJeu)this.listeServeurs.get(i)).getAdresseIp() + ":" + ((ServeurJeu)this.listeServeurs.get(i)).getPort() + ":" + ((ServeurJeu)this.listeServeurs.get(i)).getNom() + ":" + ((ServeurJeu)this.listeServeurs.get(i)).getEtat() + ";";
+                        }
+                        
+                        msg = msg.substring(0, msg.length() - 1);
+                        
+                        this.out.println(msg);
+                        System.out.println("[ConnexionClient] Envoyé.");
                     }
                 }
             }
