@@ -11,14 +11,15 @@ import javax.swing.JOptionPane;
  *
  * @author Guillaume
  */
-public class Client extends javax.swing.JFrame {
+public class ClientConnexion extends javax.swing.JFrame {
 
-    Connexion con;
+    private Connexion con;
+    private ClientLobby cl;
     
     /**
      * Creates new form Client
      */
-    public Client() {
+    public ClientConnexion() {
         initComponents();
         
         this.setLocationRelativeTo(this.getParent()); 
@@ -36,6 +37,11 @@ public class Client extends javax.swing.JFrame {
         saisiePseudo = new javax.swing.JTextField();
         boutonConnexion = new javax.swing.JButton();
         boutonDeconnexion = new javax.swing.JButton();
+        pseudo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        motDePasse = new javax.swing.JPasswordField();
+        connexionBouton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +60,19 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Pseudo : ");
+
+        jLabel2.setText("Mot de passe : ");
+
+        motDePasse.setEnabled(false);
+
+        connexionBouton.setText("Connexion");
+        connexionBouton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connexionBoutonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -65,7 +84,19 @@ public class Client extends javax.swing.JFrame {
                 .addComponent(boutonConnexion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(boutonDeconnexion)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(41, 41, 41))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(connexionBouton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pseudo, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                        .addComponent(motDePasse)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,7 +106,17 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(saisiePseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(boutonConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(boutonDeconnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(motDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(connexionBouton)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         pack();
@@ -113,6 +154,20 @@ public class Client extends javax.swing.JFrame {
         this.boutonConnexion.setEnabled(true);        
     }//GEN-LAST:event_boutonDeconnexionActionPerformed
 
+    private void connexionBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionBoutonActionPerformed
+        if(!this.pseudo.getText().isEmpty()) {
+            con = new Connexion(this.pseudo.getText());
+            con.start();
+            
+            cl = new ClientLobby(con);
+            this.setVisible(false);
+            cl.setVisible(true);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Veuillez saisir un pseudo.");
+        }
+    }//GEN-LAST:event_connexionBoutonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -130,20 +185,21 @@ public class Client extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientConnexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Client().setVisible(true);
+                new ClientConnexion().setVisible(true);
             }
         });
     }
@@ -151,6 +207,11 @@ public class Client extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boutonConnexion;
     private javax.swing.JButton boutonDeconnexion;
+    private javax.swing.JButton connexionBouton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPasswordField motDePasse;
+    private javax.swing.JTextField pseudo;
     private javax.swing.JTextField saisiePseudo;
     // End of variables declaration//GEN-END:variables
 }

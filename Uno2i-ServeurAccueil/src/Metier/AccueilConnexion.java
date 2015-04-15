@@ -39,9 +39,14 @@ public class AccueilConnexion extends Thread {
             while(!reparti && (trame = this.in.readLine()) != null) {
                 
                 System.out.println("Trame reçu!");
-                // Analyse de la trame
+                // Analyse de la trame                
                 trameEnTete = trame.split("/")[0];
-                trameContenu = trame.split("/")[1];
+                
+                trameContenu = "";
+                if(trame.split("/").length != 1)
+                    trameContenu = trame.split("/")[1];
+                else
+                    System.out.println("[AccueilConnexion] Trame sans contenu.");
                 
                 if(trameEnTete.charAt(0) == 'I' && trameEnTete.charAt(1) == 'S') { // Trame d'info en provenance du serveur de jeu
                     
