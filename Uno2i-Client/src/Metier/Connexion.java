@@ -27,8 +27,9 @@ public class Connexion extends Thread{
     
     @Override
     public void run(){
-         // Connexion au serveur d'accueil
+        
         try {
+            // Connexion au serveur d'accueil
             this.socketServeurAccueil = new Socket("127.0.0.1", 2000);
             this.out = new PrintWriter(this.socketServeurAccueil.getOutputStream(), true);
         }
@@ -38,9 +39,12 @@ public class Connexion extends Thread{
         catch (IOException e) {
             System.err.println("[Connexion] Impossible de se connecter au serveur d'accueil : " + e.getMessage());
         }
-        String msg = "CCCI/" + this.Pseudo;
-        //while(true) {
-        this.out.println(msg);
-        System.out.println("[Connexion] Trame envoyée : "+msg);
+
+        this.out.println("CCCI/" + this.Pseudo);
+    }
+    
+    public void deconnecter() {
+        // Envoi d'une trame de déconnexion
+        this.out.println("CCDI/");
     }
 }

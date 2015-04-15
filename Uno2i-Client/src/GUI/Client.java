@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class Client extends javax.swing.JFrame {
 
+    Connexion con;
+    
     /**
      * Creates new form Client
      */
@@ -81,7 +83,7 @@ public class Client extends javax.swing.JFrame {
 
     private void boutonConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonConnexionActionPerformed
         if(!this.saisiePseudo.getText().isEmpty()) {
-            Connexion con = new Connexion(this.saisiePseudo.getText());
+            con = new Connexion(this.saisiePseudo.getText());
             con.start();
             
             // Empêcher de nouvelles connexion
@@ -99,6 +101,9 @@ public class Client extends javax.swing.JFrame {
     }//GEN-LAST:event_boutonConnexionActionPerformed
 
     private void boutonDeconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonDeconnexionActionPerformed
+                
+        con.deconnecter();
+        
         this.boutonDeconnexion.setEnabled(false);
         this.saisiePseudo.setEnabled(true);
 
