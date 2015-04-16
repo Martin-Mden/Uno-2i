@@ -72,14 +72,22 @@ public class Connexion extends Thread {
                         else
                             System.out.println("[ActualisationServeurs] Trame sans contenu.");
                         
-                        if(trameEnTete.charAt(0) == 'C' && trameEnTete.charAt(1) == 'L' && trameEnTete.charAt(1) == 'A' && trameEnTete.charAt(1) == 'R') {
-                            for(String serveur : trameContenu.split(";")) {
-                                ServeurJeu s = new ServeurJeu(serveur.split(":")[0], Integer.parseInt(serveur.split(":")[1]));
-                                s.setNom(serveur.split(":")[2]);
-                                s.setEtat(serveur.split(":")[3]);
-                                
-                                this.listeServeursJeu.addElement(s);
-                                ClientLobby.actualiser();
+                        if(trameEnTete.charAt(0) == 'C' && trameEnTete.charAt(1) == 'L' && trameEnTete.charAt(2) == 'A' && trameEnTete.charAt(3) == 'R') {
+                            if(!trameContenu.isEmpty()) {
+                                for(String serveur : trameContenu.split(";")) {
+                                    ServeurJeu s = new ServeurJeu(serveur.split(":")[0], Integer.parseInt(serveur.split(":")[1]));
+                                    s.setNom(serveur.split(":")[2]);
+                                    s.setEtat(serveur.split(":")[3]);
+
+                                    if(this.listeServeursJeu.contains(s)) {
+                                        ((ServeurJeu)this.listeServeursJeu.getElementAt(this.listeServeursJeu.indexOf(s))).setEtat(s.getEtat());
+                                        ((ServeurJeu)this.listeServeursJeu.getElementAt(this.listeServeursJeu.indexOf(s))).setNom(s.getNom());
+                                    }
+                                    else
+                                        this.listeServeursJeu.addElement(s);
+
+                                    ClientLobby.actualiser();
+                                }
                             }
                         }
                         break;
@@ -105,8 +113,8 @@ public class Connexion extends Thread {
         this.out.println("CCDI/");
     }
     
-    public void setListModel(DefaultListModel liste) {
-        this.listeServeursJeu = liste;
+    public void setListModel(DefaultListModel l) {
+        this.listeServeursJeu = l;
     }
     
     public void setActualisation(boolean b) {

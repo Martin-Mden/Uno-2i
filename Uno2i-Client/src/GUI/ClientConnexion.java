@@ -6,6 +6,8 @@
 package GUI;
 
 import Metier.Connexion;
+import Metier.ServeurJeu;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 /**
  *
@@ -124,6 +126,7 @@ public class ClientConnexion extends javax.swing.JFrame {
 
     private void boutonConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonConnexionActionPerformed
         if(!this.saisiePseudo.getText().isEmpty()) {
+            
             con = new Connexion(this.saisiePseudo.getText());
             con.start();
             
