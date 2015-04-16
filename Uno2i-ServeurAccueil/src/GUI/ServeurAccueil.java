@@ -63,6 +63,7 @@ public class ServeurAccueil extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SERVEUR CENTRAL - Administration");
+        setResizable(false);
 
         jScrollPane1.setViewportView(listeServeurs);
 
