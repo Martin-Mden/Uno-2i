@@ -44,6 +44,8 @@ public class Tour {
             this.indexJoueurActuel++;
         else
             this.indexJoueurActuel = this.tourSuivant().indexJoueurActuel;
+        
+        this.ordreJoueurs.get(this.indexJoueurActuel).setaPioche(false);
     }
     
     public Joueur getJoueurActuel() {
