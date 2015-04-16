@@ -27,11 +27,11 @@ public class ClientLobby extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(this.getParent());
         
-        DefaultListModel listeServeurs = new DefaultListModel();
-        this.listeServeursJeu.setModel(listeServeurs);
-        
-        c.setListModel(listeServeurs);
+        DefaultListModel listeServeursModel = new DefaultListModel();
+        c.setListModel(listeServeursModel);
         c.setActualisation(true);
+        
+        this.listeServeursJeu.setModel(listeServeursModel);
     }
 
     /**
