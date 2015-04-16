@@ -105,4 +105,41 @@ public class Partie {
         return true;
     }
     
+    public void piocher(Joueur joueur){
+        if(joueur.getNom().equals(this.getTourActuel().getJoueurActuel().getNom())){
+            if(!joueur.isaPioche()){
+                joueur.getMain().ajouterCarte(this.getPioche().piocher());
+                joueur.setaPioche(true);
+                System.out.println("");
+                //On passe au joueur suivant
+
+                for(Joueur j : this.getJoueurs()) {
+                    System.out.println("Contenu de la main du joueur \"" + j.getNom() + "\" :");
+                    for(Carte cartes : j.getMain().getCartes()) {
+                        System.out.print(cartes.getId() + ", ");
+                    }
+                    System.out.println("");
+                }
+                System.out.println("Carte retournée en défausse : " + this.getPioche().getDefausse().getId());
+                System.out.println("");
+                System.out.println("C'est au tour de \"" + this.getTourActuel().getJoueurActuel().getNom()+"\"");
+            }
+        }
+    }
+    
+    public void passerTour(){
+        //On passe au joueur suivant
+        this.tourActuel.setJoueurSuivant();
+        
+        for(Joueur joueur : this.getJoueurs()) {
+            System.out.println("Contenu de la main du joueur \"" + joueur.getNom() + "\" :");
+            for(Carte cartes : joueur.getMain().getCartes()) {
+                System.out.print(cartes.getId() + ", ");
+            }
+            System.out.println("");
+        }
+        System.out.println("Carte retournée en défausse : " + this.getPioche().getDefausse().getId());
+        System.out.println("");
+        System.out.println("C'est au tour de \"" + this.getTourActuel().getJoueurActuel().getNom()+"\"");
+    }
 }

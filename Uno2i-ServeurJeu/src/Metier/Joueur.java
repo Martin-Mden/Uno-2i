@@ -14,11 +14,13 @@ public class Joueur {
     private String nom;
     
     private Main mainJoueur;
+    private boolean aPioche;
     
     public Joueur(String nom) {
         //System.out.println("[Joueur] Création du joueur \"" + nom + "\".");
         this.nom = nom;
         this.mainJoueur = new Main();
+        this.aPioche = false;
     }
     
     public Main getMain() {
@@ -27,6 +29,14 @@ public class Joueur {
     
     public String getNom() {
         return this.nom;
+    }
+
+    public boolean isaPioche() {
+        return aPioche;
+    }
+
+    public void setaPioche(boolean aPioche) {
+        this.aPioche = aPioche;
     }
     
 }

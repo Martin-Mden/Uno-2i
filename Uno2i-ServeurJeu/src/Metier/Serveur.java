@@ -90,5 +90,12 @@ public class Serveur extends Thread {
         notif.deconnecter();
     }
     
+    public void piocher(){
+        jeu.piocher(jeu.getTourActuel().getJoueurActuel());
+    }
+    
+    public void passerSonTour(){
+        jeu.passerTour();
+    }
      
 }
