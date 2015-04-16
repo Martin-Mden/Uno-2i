@@ -6,8 +6,7 @@
 package GUI;
 
 import Metier.Connexion;
-import Metier.ServeurJeu;
-import javax.swing.DefaultListModel;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 /**
  *
@@ -25,6 +24,8 @@ public class ClientConnexion extends javax.swing.JFrame {
         initComponents();
         
         this.setLocationRelativeTo(this.getParent()); 
+        this.setIconImage(getToolkit().getImage(getClass().getClassLoader().getResource("Images/icon_uno.png")));
+        getContentPane().setBackground(new Color(0xD90F00));
     }
 
     /**
@@ -36,126 +37,82 @@ public class ClientConnexion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        saisiePseudo = new javax.swing.JTextField();
-        boutonConnexion = new javax.swing.JButton();
-        boutonDeconnexion = new javax.swing.JButton();
         pseudo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         motDePasse = new javax.swing.JPasswordField();
         connexionBouton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("UNO'2I - Connexion");
+        setResizable(false);
 
-        boutonConnexion.setText("Connexion");
-        boutonConnexion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boutonConnexionActionPerformed(evt);
-            }
-        });
+        pseudo.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        pseudo.setNextFocusableComponent(motDePasse);
 
-        boutonDeconnexion.setText("Déconnecté");
-        boutonDeconnexion.setEnabled(false);
-        boutonDeconnexion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boutonDeconnexionActionPerformed(evt);
-            }
-        });
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/label_pseudo.png"))); // NOI18N
 
-        jLabel1.setText("Pseudo : ");
-
-        jLabel2.setText("Mot de passe : ");
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/label_motDePasse.png"))); // NOI18N
 
         motDePasse.setEnabled(false);
+        motDePasse.setNextFocusableComponent(connexionBouton);
 
-        connexionBouton.setText("Connexion");
+        connexionBouton.setBackground(new java.awt.Color(51, 153, 0));
+        connexionBouton.setForeground(new java.awt.Color(255, 255, 255));
+        connexionBouton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/label_connexion.png"))); // NOI18N
+        connexionBouton.setNextFocusableComponent(pseudo);
         connexionBouton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connexionBoutonActionPerformed(evt);
             }
         });
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_uno.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(saisiePseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(boutonConnexion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(boutonDeconnexion)
-                .addGap(41, 41, 41))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(7, 7, 7)
+                .addGap(53, 53, 53)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(connexionBouton)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(pseudo, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                        .addComponent(motDePasse)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pseudo)
+                            .addComponent(motDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(connexionBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saisiePseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boutonConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boutonDeconnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(motDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pseudo)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(motDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(connexionBouton)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(104, 104, 104))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void boutonConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonConnexionActionPerformed
-        if(!this.saisiePseudo.getText().isEmpty()) {
-            
-            con = new Connexion(this.saisiePseudo.getText());
-            con.start();
-            
-            // Empêcher de nouvelles connexion
-            this.boutonConnexion.setEnabled(false);            
-            this.saisiePseudo.setEnabled(false);
-            
-            this.boutonConnexion.setText("Connecté");
-            this.boutonDeconnexion.setText("Déconnexion");
-            
-            this.boutonDeconnexion.setEnabled(true);
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Veuillez saisir un pseudo.");
-        }
-    }//GEN-LAST:event_boutonConnexionActionPerformed
-
-    private void boutonDeconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonDeconnexionActionPerformed
-                
-        con.deconnecter();
-        
-        this.boutonDeconnexion.setEnabled(false);
-        this.saisiePseudo.setEnabled(true);
-
-        this.boutonConnexion.setText("Connecté");
-        this.boutonDeconnexion.setText("Déconnexion");
-        
-        this.boutonConnexion.setEnabled(true);        
-    }//GEN-LAST:event_boutonDeconnexionActionPerformed
 
     private void connexionBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionBoutonActionPerformed
         if(!this.pseudo.getText().isEmpty()) {
@@ -208,13 +165,11 @@ public class ClientConnexion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton boutonConnexion;
-    private javax.swing.JButton boutonDeconnexion;
     private javax.swing.JButton connexionBouton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField motDePasse;
     private javax.swing.JTextField pseudo;
-    private javax.swing.JTextField saisiePseudo;
     // End of variables declaration//GEN-END:variables
 }

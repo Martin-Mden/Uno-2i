@@ -6,6 +6,7 @@
 package GUI;
 
 import Metier.Connexion;
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 
 /**
@@ -26,6 +27,8 @@ public class ClientLobby extends javax.swing.JFrame {
         initComponents();
         
         this.setLocationRelativeTo(this.getParent());
+        this.setIconImage(getToolkit().getImage(getClass().getClassLoader().getResource("Images/icon_uno.png")));
+        getContentPane().setBackground(new Color(0xD90F00));
         
         DefaultListModel listeServeursModel = new DefaultListModel();
         c.setListModel(listeServeursModel);
@@ -52,10 +55,12 @@ public class ClientLobby extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("UNO'2I - Choix du salon de jeu");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        jPanel1.setBackground(new Color(0xD90F00));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0xFFE94E)));
 
         jScrollPane1.setViewportView(listeServeursJeu);
 
@@ -77,12 +82,13 @@ public class ClientLobby extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel1.setText("Votre profil...");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/label_profil.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel2.setText("Salons de jeu...");
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/label_salon.png"))); // NOI18N
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        jPanel3.setBackground(new Color(0xD90F00));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0xFFE94E)));
 
         jLabel3.setText("Bientôt...");
 
