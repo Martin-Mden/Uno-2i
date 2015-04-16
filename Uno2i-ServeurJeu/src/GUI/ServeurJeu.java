@@ -62,6 +62,7 @@ public class ServeurJeu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("STOPPÉ - Serveur de jeu");
+        setResizable(false);
 
         labelNomServeur.setText("Nom du serveur : ");
 
