@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Metier;
 
 import GUI.ClientLobby;
@@ -14,10 +10,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import javax.swing.DefaultListModel;
 
-/**
- *
- * @author Martin
- */
 public class Connexion extends Thread {
     
     private Socket socketServeurAccueil;
@@ -26,9 +18,15 @@ public class Connexion extends Thread {
     private PrintWriter out;
     private String pseudo;
     private boolean actualisable;
+    private boolean connected;
+    
+    public void stopper() {
+        this.connected = false;
+    }
     
     public Connexion(String pseudo) {
         this.pseudo = pseudo;
+        this.connected = true;
     }
     
     @Override
@@ -49,7 +47,7 @@ public class Connexion extends Thread {
 
         this.out.println("CCCI/" + this.pseudo);
         
-        while(true) {
+        while(this.connected) {
             if(actualisable && listeServeursJeu != null) {
                 this.out.println("CCCI/" + this.pseudo);
 
@@ -119,6 +117,10 @@ public class Connexion extends Thread {
     
     public void setActualisation(boolean b) {
         this.actualisable = b;
+    }
+    
+    public String getPseudo() {
+        return this.pseudo;
     }
     
 }

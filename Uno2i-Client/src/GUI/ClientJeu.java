@@ -1,24 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI;
 
-/**
- *
- * @author Martin
- */
+import Metier.ConnexionJeu;
+import Metier.ServeurJeu;
+import java.io.IOException;
+import java.net.Socket;
+
 public class ClientJeu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ClientJeu
-     */
-    public ClientJeu() {
+    private ClientLobby clientLobby;
+    private ConnexionJeu connexionJeu;
+    
+    public ClientJeu(ClientLobby clientLobby, ServeurJeu srv) {
         initComponents();
+        
+        this.clientLobby = clientLobby;
         
         this.setLocationRelativeTo(this.getParent()); 
         System.out.println("Client de jeu démarré. Tentative de connexion au serveur de jeu...");
+        
+        Socket socketServeurJeu = null;
+        try {
+            socketServeurJeu = new Socket(srv.getAdresseIp(), srv.getPort());
+            System.out.println("[ClientJeu] Connecté au serveur de jeu.");
+        } 
+        catch (IOException e) {
+            System.err.println("[ClientJeu] Impossible de se connecter au serveur de jeu. " + e.getMessage());
+        }
+        
+        connexionJeu = new ConnexionJeu(socketServeurJeu, this.clientLobby.c.getPseudo());
+        connexionJeu.start();
         
     }
 
@@ -31,24 +42,55 @@ public class ClientJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pretBouton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        pretBouton.setText("PRET");
+        pretBouton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pretBoutonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 485, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(pretBouton)
+                .addContainerGap(729, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 285, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(526, Short.MAX_VALUE)
+                .addComponent(pretBouton)
+                .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.setVisible(false);
+        this.clientLobby.setVisible(true);        
+    }//GEN-LAST:event_formWindowClosing
+
+    private void pretBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretBoutonActionPerformed
+        this.pretBouton.setEnabled(false);
+        this.connexionJeu.indiquerPret();
+    }//GEN-LAST:event_pretBoutonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton pretBouton;
     // End of variables declaration//GEN-END:variables
 }

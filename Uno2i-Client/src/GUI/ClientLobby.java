@@ -6,6 +6,7 @@
 package GUI;
 
 import Metier.Connexion;
+import Metier.ServeurJeu;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 
@@ -14,6 +15,8 @@ import javax.swing.DefaultListModel;
  * @author Martin
  */
 public class ClientLobby extends javax.swing.JFrame {
+    
+    public Connexion c;
     
     public static void actualiser() {
         ClientLobby.getFrames()[0].repaint();
@@ -26,13 +29,15 @@ public class ClientLobby extends javax.swing.JFrame {
     public ClientLobby(Connexion c) {
         initComponents();
         
+        this.c = c;
+        
         this.setLocationRelativeTo(this.getParent());
         this.setIconImage(getToolkit().getImage(getClass().getClassLoader().getResource("Images/icon_uno.png")));
         getContentPane().setBackground(new Color(0xD90F00));
         
         DefaultListModel listeServeursModel = new DefaultListModel();
-        c.setListModel(listeServeursModel);
-        c.setActualisation(true);
+        this.c.setListModel(listeServeursModel);
+        this.c.setActualisation(true);
         
         this.listeServeursJeu.setModel(listeServeursModel);
     }
@@ -62,6 +67,11 @@ public class ClientLobby extends javax.swing.JFrame {
         jPanel1.setBackground(new Color(0xD90F00));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0xFFE94E)));
 
+        listeServeursJeu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listeServeursJeuMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listeServeursJeu);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -140,6 +150,17 @@ public class ClientLobby extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void listeServeursJeuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listeServeursJeuMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.c.deconnecter();
+            this.c.stopper();
+            ServeurJeu s = (ServeurJeu)this.listeServeursJeu.getSelectedValue();
+            ClientJeu clientJeu = new ClientJeu(this, s);
+            this.setVisible(false);
+            clientJeu.setVisible(true);
+        }
+    }//GEN-LAST:event_listeServeursJeuMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
