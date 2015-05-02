@@ -1,12 +1,8 @@
 
-package Metier;
+package Metier.Jeu;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Martin
- */
 public class Main {
     
     private ArrayList<Carte> listeCartesEnMain;

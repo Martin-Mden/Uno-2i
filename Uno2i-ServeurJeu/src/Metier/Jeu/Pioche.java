@@ -1,13 +1,9 @@
 
-package Metier;
+package Metier.Jeu;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- *
- * @author Martin
- */
 public class Pioche {
     
     private ArrayList<Carte> listeCartesJeu;

@@ -1,15 +1,16 @@
 
 package Metier;
 
+import Metier.Jeu.Partie;
+import Metier.Jeu.Regles;
+import Metier.Jeu.Joueur;
+import Metier.Jeu.Carte;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Martin
- */
 public class Serveur extends Thread {
     
     private ServerSocket srvsocket;
@@ -18,6 +19,8 @@ public class Serveur extends Thread {
     private Regles regle;
     private Partie jeu;
     private Notification notif;
+    
+    private PrintWriter out;
     
     public Serveur(String nom) {
         this.nom = nom;
@@ -37,34 +40,66 @@ public class Serveur extends Thread {
         catch(IOException e) {
             System.err.println("[Serveur] Impossible de créer le socket serveur : " + e.getMessage());
         }
-
+        
         ServeurJeu s = new ServeurJeu(this.srvsocket.getInetAddress().toString().split("/")[1], this.srvsocket.getLocalPort());       
         s.setEtat("En attente de joueurs...");
         s.setNom(this.nom);
         
         notif = new Notification(s);
-        notif.start();      
+        notif.start(); 
+        
+        System.out.println("[Serveur] Création de la partie et attente de joueurs...");
+        jeu = new Partie();
+        
+        AccueilConnexion connexion = new AccueilConnexion(srvsocket, this);
+        connexion.start();
         
         try {
             sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        
+        // Attente de connexion d'au moins 2 joueurs        
+        while(this.jeu.getListeConnectesNonPrets().size() < 2) {                         
+            
+            try {
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+            }             
+        }    
+        
+        // Attente de connexion de 4 joueurs pendant 5 minutes
+        int decompte = 300;
+        while(!this.jeu.getListeConnectesNonPrets().isEmpty() && this.jeu.getListeConnectesNonPrets().size() < 4 && decompte >= 0) {
+            
+            connexion.envoyerTrame("JSDI/" + decompte);
+            decompte--;
+                
+            try {
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }
         
-        System.out.println("[Serveur] Création des joueurs...");
-        Joueur j1 = new Joueur("Joueur 1");
-        Joueur j2 = new Joueur("Joueur 2");
-        Joueur j3 = new Joueur("Joueur 3");
-        Joueur j4 = new Joueur("Joueur 4");
+        // Attente de 6 joueurs pendant 1 minutes
+        if(decompte > 100) decompte = 100;
+        while(!this.jeu.getListeConnectesNonPrets().isEmpty() && this.jeu.getListeConnectesNonPrets().size() < 6 && decompte >= 0) {
+
+            connexion.envoyerTrame("JSDI/" + decompte);
+            decompte--;
+            
+            try {
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
         
-        System.out.println("[Serveur] Création de la partie et ajout des joueurs...");
-        jeu = new Partie();
-        jeu.ajouterJoueur(j1);
-        jeu.ajouterJoueur(j2);
-        jeu.ajouterJoueur(j3);
-        jeu.ajouterJoueur(j4);
-        
-        s.setEtat("Initialisation de la partie...");
+        s.setEtat("Initialisation de la partie de " + this.jeu.getJoueurs().size() + "joueurs ...");
         notif.notifier();
         
         jeu.initialiser();
@@ -96,6 +131,10 @@ public class Serveur extends Thread {
     
     public void passerSonTour(){
         jeu.passerTour();
+    }
+    
+    public Partie getPartie() {
+        return this.jeu;
     }
      
 }

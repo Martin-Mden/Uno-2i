@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Metier;
 
-/**
- *
- * @author Martin
- */
+package Metier.Jeu;
+
+import java.net.Socket;
+
 public class Joueur {
     
     private String nom;
+    private Socket socketClient;
     
     private Main mainJoueur;
     private boolean aPioche;
@@ -21,6 +16,11 @@ public class Joueur {
         this.nom = nom;
         this.mainJoueur = new Main();
         this.aPioche = false;
+    }
+    
+    public Joueur(Socket socket) {
+        this("Connexion...");
+        this.socketClient = socket;
     }
     
     public Main getMain() {
@@ -38,5 +38,16 @@ public class Joueur {
     public void setaPioche(boolean aPioche) {
         this.aPioche = aPioche;
     }
+
+    public Socket getSocketClient() {
+        return socketClient;
+    }
+
+    public void setSocketClient(Socket socketClient) {
+        this.socketClient = socketClient;
+    }
     
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }

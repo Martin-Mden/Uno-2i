@@ -1,24 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Metier;
+
+package Metier.Jeu;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Martin
- */
 public class Partie {
     
+    private ArrayList<Joueur> listeConnectesNonPrets;
     private ArrayList<Joueur> listeJoueurs;
     private Tour tourActuel;
     private Pioche pioche;
     
     public Partie() {
-        this("Sans libellé");
+        this("Sans libellé");                
 
     }
 
@@ -26,8 +19,19 @@ public class Partie {
         return tourActuel;
     }
     
+    public ArrayList<Joueur> getListeConnectesNonPrets() {
+        return this.listeConnectesNonPrets;
+    }
+    
+    public void preparerJoueur(Joueur j) {
+        this.listeConnectesNonPrets.remove(j);
+        this.listeJoueurs.add(j);
+        System.out.println("[Partie] Connexion de \"" + j.getNom() + "\" à la partie.");
+    }
+    
     public Partie(String libelle) { 
         this.listeJoueurs = new ArrayList<>();
+        this.listeConnectesNonPrets = new ArrayList<>();
         //System.out.println("[Partie] Création de la partie \"" + libelle + "\".");        
     }
     
@@ -36,8 +40,7 @@ public class Partie {
     }
     
     public void ajouterJoueur(Joueur j) {
-        this.listeJoueurs.add(j);
-        System.out.println("[Partie] Connexion de \"" + j.getNom() + "\" à la partie.");
+        this.listeConnectesNonPrets.add(j);        
     }
     
     public Pioche getPioche() {
