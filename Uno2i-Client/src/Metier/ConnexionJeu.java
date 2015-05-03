@@ -1,8 +1,11 @@
 
 package Metier;
 
+import Outils.CarteGraphique;
 import Outils.Outils;
 import Outils.Trame;
+import java.awt.BorderLayout;
+import java.awt.LayoutManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +15,7 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class ConnexionJeu extends Thread {
     
@@ -94,6 +98,12 @@ public class ConnexionJeu extends Thread {
                     }
                     else if(trameContenu.split(";")[0].equals("Défausse")) {
                         joueur.setCarteDefausse(trameContenu.split(";")[1]);
+                        
+                        LayoutManager lay = new BorderLayout();
+                        JPanel defaussePanel = Outils.getComponentByName(fenetre, "defaussePanel");
+                        defaussePanel.setLayout(lay);
+                        CarteGraphique ca = new CarteGraphique(trameContenu.split(";")[1], true);      
+                        defaussePanel.add(ca, BorderLayout.CENTER);
                     }
                 }
                 

@@ -4,16 +4,14 @@ package GUI;
 import Metier.ConnexionJeu;
 import Metier.Joueur;
 import Metier.ServeurJeu;
+import Outils.CarteGraphique;
 import Outils.Trame;
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.File;
+import java.awt.BorderLayout;
+import java.awt.LayoutManager;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.JPanel;
 
 public class ClientJeu extends javax.swing.JFrame {
 
@@ -40,20 +38,6 @@ public class ClientJeu extends javax.swing.JFrame {
         
         connexionJeu = new ConnexionJeu(socketServeurJeu, new Joueur(this.clientLobby.c.getPseudo()), this);
         connexionJeu.start();
-        
-        //setContentPane(new AffichageCarte("Images/cartes.png"));
-        
-        Container cp = this.getContentPane();
-        
-        cp.add(new AffichageCarte("Images/cartes.png"));
-        ClientJeu.getFrames()[0].repaint();
-        /*Image img = getToolkit().getImage(getClass().getClassLoader().getResource("Images/cartes.png"));
-        Graphics g = this.getGraphics();
-        this.paintComponents(g);
-        g.drawImage(img, 0, 0, this);
-        ClientJeu.getFrames()[0].repaint();
-        System.out.println("Il est passé par ici");
-        */
     }
 
     /**
@@ -71,6 +55,7 @@ public class ClientJeu extends javax.swing.JFrame {
         chatWindow = new javax.swing.JTextArea();
         chatInput = new javax.swing.JTextField();
         envoyerMessageBouton = new javax.swing.JButton();
+        defaussePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("UNO - Plateau de jeu");
@@ -102,29 +87,53 @@ public class ClientJeu extends javax.swing.JFrame {
         envoyerMessageBouton.setText(">");
         envoyerMessageBouton.setEnabled(false);
 
+        defaussePanel.setMaximumSize(new java.awt.Dimension(76, 112));
+        defaussePanel.setMinimumSize(new java.awt.Dimension(76, 112));
+        defaussePanel.setPreferredSize(new java.awt.Dimension(76, 112));
+
+        javax.swing.GroupLayout defaussePanelLayout = new javax.swing.GroupLayout(defaussePanel);
+        defaussePanel.setLayout(defaussePanelLayout);
+        defaussePanelLayout.setHorizontalGroup(
+            defaussePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 76, Short.MAX_VALUE)
+        );
+        defaussePanelLayout.setVerticalGroup(
+            defaussePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 112, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addComponent(pretBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chatInput, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(251, 251, 251)
+                        .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(chatInput)
@@ -159,6 +168,7 @@ public class ClientJeu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField chatInput;
     private javax.swing.JTextArea chatWindow;
+    private javax.swing.JPanel defaussePanel;
     private javax.swing.JButton envoyerMessageBouton;
     private javax.swing.JLabel infoLabel;
     private javax.swing.JScrollPane jScrollPane1;
