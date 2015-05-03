@@ -1,6 +1,7 @@
 
 package Metier.Jeu;
 
+import Outils.Trame;
 import java.util.ArrayList;
 
 public class Partie {
@@ -53,9 +54,13 @@ public class Partie {
 
         System.out.println("[Partie] Distribution des cartes...");
 
+        Carte carte;
         for(int compteur = 0; compteur < 7; compteur++) {
             for(Joueur j : this.getJoueurs()) {
-                j.getMain().ajouterCarte(this.getPioche().piocher());
+                carte = this.getPioche().piocher();
+                j.getMain().ajouterCarte(carte);
+                Trame.envoyerPour("JSPI/" + j.getNom() + ";" + carte.getId(), j);
+                Trame.envoyerSauf("JSPI/" + j.getNom() + ";", j);
             }
         }
         
@@ -72,6 +77,7 @@ public class Partie {
         
         this.getPioche().setDefausse(this.getPioche().piocher());
         System.out.println("Carte retournée en défausse : " + this.getPioche().getDefausse().getId());
+        Trame.envoyer("JSPI/Défausse;" + this.getPioche().getDefausse().getId());
    
         System.out.println("");
         this.tourActuel = new Tour(true, this.getJoueurs(), 0);

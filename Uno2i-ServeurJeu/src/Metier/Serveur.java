@@ -64,6 +64,8 @@ public class Serveur extends Thread {
         // Attente de connexion d'au moins 2 joueurs        
         while(this.jeu.getJoueurs().size() + this.jeu.getListeConnectesNonPrets().size() < 2) {                         
             
+            Trame.envoyer("JSDI/-1");
+            
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {
@@ -85,8 +87,9 @@ public class Serveur extends Thread {
             } 
         }
         
+        /* PAS ENCORE DE GESTION DE 6 JOUEURS
         // Attente de 6 joueurs pendant 1 minutes
-        if(decompte > 100) decompte = 100;
+        if(decompte > 60) decompte = 60;
         while(!this.jeu.getListeConnectesNonPrets().isEmpty() && this.jeu.getListeConnectesNonPrets().size() < 6 && decompte >= 0) {
 
             Trame.envoyer("JSDI/" + decompte);
@@ -97,7 +100,7 @@ public class Serveur extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Serveur.class.getName()).log(Level.SEVERE, null, ex);
             } 
-        }
+        }*/
         
         Trame.envoyer("JSDI/0");
         s.setEtat("Initialisation de la partie...");

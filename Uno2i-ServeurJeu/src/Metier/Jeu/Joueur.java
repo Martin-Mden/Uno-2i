@@ -2,6 +2,7 @@
 package Metier.Jeu;
 
 import java.net.Socket;
+import java.util.Objects;
 
 public class Joueur {
     
@@ -50,4 +51,26 @@ public class Joueur {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.nom);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Joueur other = (Joueur) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        return true;
+    }        
 }

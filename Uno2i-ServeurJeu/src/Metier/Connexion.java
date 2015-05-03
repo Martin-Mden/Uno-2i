@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import javax.swing.DefaultListModel;
 
 public class Connexion extends Thread {
     
@@ -22,6 +21,10 @@ public class Connexion extends Thread {
         this.joueur = joueur;
         this.serveur = serveur;
         System.out.println("[Connexion] Un client s'est connecté, non prêt.");
+    }
+    
+    public Joueur getJoueur() {
+        return this.joueur;
     }
     
     @Override
