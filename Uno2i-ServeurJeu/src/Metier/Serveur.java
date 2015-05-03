@@ -111,6 +111,8 @@ public class Serveur extends Thread {
         s.setEtat("Partie en cours.");
         notif.notifier();
         regle = new Regles(jeu);
+        
+        //carte piche
     }
     
     public void stopper() {
