@@ -3,6 +3,7 @@ package GUI;
 
 import Metier.ConnexionJeu;
 import Metier.ServeurJeu;
+import Outils.Trame;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -17,6 +18,7 @@ public class ClientJeu extends javax.swing.JFrame {
         this.clientLobby = clientLobby;
         
         this.setLocationRelativeTo(this.getParent()); 
+        this.setIconImage(getToolkit().getImage(getClass().getClassLoader().getResource("Images/icon_uno.png")));
         System.out.println("Client de jeu démarré. Tentative de connexion au serveur de jeu...");
         
         Socket socketServeurJeu = null;
@@ -28,7 +30,7 @@ public class ClientJeu extends javax.swing.JFrame {
             System.err.println("[ClientJeu] Impossible de se connecter au serveur de jeu. " + e.getMessage());
         }
         
-        connexionJeu = new ConnexionJeu(socketServeurJeu, this.clientLobby.c.getPseudo());
+        connexionJeu = new ConnexionJeu(socketServeurJeu, this.clientLobby.c.getPseudo(), this);
         connexionJeu.start();
         
     }
@@ -43,8 +45,14 @@ public class ClientJeu extends javax.swing.JFrame {
     private void initComponents() {
 
         pretBouton = new javax.swing.JButton();
+        infoLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        chatWindow = new javax.swing.JTextArea();
+        chatInput = new javax.swing.JTextField();
+        envoyerMessageBouton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("UNO - Plateau de jeu");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -59,21 +67,45 @@ public class ClientJeu extends javax.swing.JFrame {
             }
         });
 
+        infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        chatWindow.setEditable(false);
+        chatWindow.setColumns(20);
+        chatWindow.setRows(5);
+        jScrollPane1.setViewportView(chatWindow);
+
+        envoyerMessageBouton.setText(">");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(pretBouton)
-                .addContainerGap(729, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pretBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chatInput, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(526, Short.MAX_VALUE)
-                .addComponent(pretBouton)
-                .addGap(25, 25, 25))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(chatInput)
+                    .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pretBouton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -85,12 +117,25 @@ public class ClientJeu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void pretBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretBoutonActionPerformed
-        this.pretBouton.setEnabled(false);
-        this.connexionJeu.indiquerPret();
+        if(this.pretBouton.getText().equals("PRET")) {
+            this.pretBouton.setEnabled(false);
+            this.pretBouton.setText("ATTENTE");
+            this.connexionJeu.indiquerPret();
+        }
+        else if(this.pretBouton.getText().equals("FINIR TOUR")) {
+            this.pretBouton.setEnabled(false);
+            this.pretBouton.setText("ATTENTE");
+            Trame.envoyer("JCTR/");
+        }        
     }//GEN-LAST:event_pretBoutonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField chatInput;
+    private javax.swing.JTextArea chatWindow;
+    private javax.swing.JButton envoyerMessageBouton;
+    private javax.swing.JLabel infoLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton pretBouton;
     // End of variables declaration//GEN-END:variables
 }
