@@ -5,8 +5,14 @@ import Metier.ConnexionJeu;
 import Metier.Joueur;
 import Metier.ServeurJeu;
 import Outils.Trame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class ClientJeu extends javax.swing.JFrame {
 
@@ -33,6 +39,16 @@ public class ClientJeu extends javax.swing.JFrame {
         
         connexionJeu = new ConnexionJeu(socketServeurJeu, new Joueur(this.clientLobby.c.getPseudo()), this);
         connexionJeu.start();
+        
+        
+        //Afficher l'image de carte
+        try {
+            Image img = ImageIO.read(new File("/Images/cartes.png"));
+            Graphics g = this.getGraphics();
+            g.drawImage(img, 0, 0, this);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientJeu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
