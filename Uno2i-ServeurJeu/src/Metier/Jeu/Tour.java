@@ -1,6 +1,7 @@
 
 package Metier.Jeu;
 
+import Outils.Trame;
 import java.util.ArrayList;
 
 public class Tour {
@@ -22,6 +23,7 @@ public class Tour {
         
         System.out.print("C'est au tour de \"" + this.ordreJoueurs.get(indexJoueurActuel).getNom() + "\".");
         System.out.println("");
+        Trame.envoyer("JSTI/" + this.ordreJoueurs.get(this.indexJoueurActuel).getNom());
     }
     
     public Joueur getJoueurSuivant() {
@@ -38,6 +40,7 @@ public class Tour {
             this.indexJoueurActuel = this.tourSuivant().indexJoueurActuel;
         
         this.ordreJoueurs.get(this.indexJoueurActuel).setaPioche(false);
+        Trame.envoyer("JSTI/" + this.ordreJoueurs.get(this.indexJoueurActuel).getNom());
     }
     
     public Joueur getJoueurActuel() {

@@ -1,22 +1,20 @@
 
 package Metier;
 
+import Outils.Trame;
 import Metier.Jeu.Joueur;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class AccueilConnexion extends Thread {
     
     private ServerSocket socketServeur;
     private Serveur serveur;
-    private ArrayList<Connexion> listeConnexions;
     
     public AccueilConnexion(ServerSocket socketServeur, Serveur serveur) {
         this.socketServeur = socketServeur;
         this.serveur = serveur;
-        this.listeConnexions = new ArrayList<>();
     }
     
     public void desactiverConnexion() {
@@ -32,7 +30,7 @@ public class AccueilConnexion extends Thread {
             try {
                 socketClient = socketServeur.accept();                         
                 Thread t = new Connexion(socketClient, new Joueur(socketClient), serveur);
-                this.listeConnexions.add((Connexion)t);
+                Trame.addConnexion((Connexion)t);
                 t.start();  
             }
             catch(IOException e) {
@@ -41,11 +39,4 @@ public class AccueilConnexion extends Thread {
         }       
         
     }
-    
-    public void envoyerTrame(String trame) {
-        for(Connexion c : this.listeConnexions) {
-            c.envoyerTrame(trame);
-        }
-    }
-    
 }

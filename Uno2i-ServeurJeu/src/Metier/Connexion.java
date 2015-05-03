@@ -12,7 +12,6 @@ import javax.swing.DefaultListModel;
 public class Connexion extends Thread {
     
     private final Socket socketClient;
-    private DefaultListModel listeServeurs, listeClients;
     private BufferedReader in;
     private PrintWriter out;
     private Joueur joueur;
@@ -22,7 +21,7 @@ public class Connexion extends Thread {
         this.socketClient = socketClient;
         this.joueur = joueur;
         this.serveur = serveur;
-        System.out.println("[Connexion] Un client s'est connecté.");
+        System.out.println("[Connexion] Un client s'est connecté, non prêt.");
     }
     
     @Override
@@ -36,7 +35,7 @@ public class Connexion extends Thread {
             // Phase de connexion (récupération du nom d'utilisateur, ...)
             while((trame = this.in.readLine()) != null) {
                 
-                System.out.println("[Connexion] Trame reçu : " + trame.split("/")[0]);
+                //System.out.println("[Connexion] Trame reçu : " + trame.split("/")[0]);
                 
                 // Analyse de la trame
                 trameEnTete = trame.split("/")[0];
@@ -44,8 +43,6 @@ public class Connexion extends Thread {
                 trameContenu = "";
                 if(trame.split("/").length != 1)
                     trameContenu = trame.split("/")[1];
-                else
-                    System.out.println("[Connexion] Trame sans contenu.");
                 
                 if(trameEnTete.charAt(0) == 'C' && trameEnTete.charAt(1) == 'C' && trameEnTete.charAt(2) == 'C' && trameEnTete.charAt(3) == 'I') {
                     this.joueur.setNom(trameContenu);    
@@ -62,7 +59,7 @@ public class Connexion extends Thread {
             // Phase de jeu
             while((trame = this.in.readLine()) != null) {
                 
-                System.out.println("[Connexion] Trame reçu : " + trame.split("/")[0]);
+                //System.out.println("[Connexion] Trame reçu : " + trame.split("/")[0]);
                 
                 // Analyse de la trame
                 trameEnTete = trame.split("/")[0];
@@ -70,26 +67,20 @@ public class Connexion extends Thread {
                 trameContenu = "";
                 if(trame.split("/").length != 1)
                     trameContenu = trame.split("/")[1];
-                else
-                    System.out.println("[Connexion] Trame sans contenu.");
                 
-                if(trameEnTete.charAt(0) == 'C' && trameEnTete.charAt(1) == 'C') {
-                    
+                if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'C' && trameEnTete.charAt(2) == 'T' && trameEnTete.charAt(3) == 'R') {
+                    this.serveur.getPartie().passerTour();
                 }
             }
            
         }
         catch(IOException e) {
-            System.err.println("[Connexion] Erreur de communication avec le client : " + e);
-            
-            listeClients.removeElement(joueur.getNom());
-            System.out.println("[Connexion] Un client a été déconnecté prématurément.");
+            System.err.println("[Connexion] \"" + this.joueur.getNom() + "\" s'est déconnecté de la partie !");
         }
 
     }
 
     public void envoyerTrame(String trame) {
         this.out.println(trame);
-        System.out.println("Trame envoyée : " + trame);
     }
 }

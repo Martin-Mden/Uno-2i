@@ -1,9 +1,9 @@
 
 package Metier;
 
+import Outils.Trame;
 import Metier.Jeu.Partie;
 import Metier.Jeu.Regles;
-import Metier.Jeu.Joueur;
 import Metier.Jeu.Carte;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,7 +62,7 @@ public class Serveur extends Thread {
         
         
         // Attente de connexion d'au moins 2 joueurs        
-        while(this.jeu.getListeConnectesNonPrets().size() < 2) {                         
+        while(this.jeu.getJoueurs().size() + this.jeu.getListeConnectesNonPrets().size() < 2) {                         
             
             try {
                 sleep(1000);
@@ -75,7 +75,7 @@ public class Serveur extends Thread {
         int decompte = 300;
         while(!this.jeu.getListeConnectesNonPrets().isEmpty() && this.jeu.getListeConnectesNonPrets().size() < 4 && decompte >= 0) {
             
-            connexion.envoyerTrame("JSDI/" + decompte);
+            Trame.envoyer("JSDI/" + decompte);
             decompte--;
                 
             try {
@@ -89,7 +89,7 @@ public class Serveur extends Thread {
         if(decompte > 100) decompte = 100;
         while(!this.jeu.getListeConnectesNonPrets().isEmpty() && this.jeu.getListeConnectesNonPrets().size() < 6 && decompte >= 0) {
 
-            connexion.envoyerTrame("JSDI/" + decompte);
+            Trame.envoyer("JSDI/" + decompte);
             decompte--;
             
             try {
@@ -99,7 +99,8 @@ public class Serveur extends Thread {
             } 
         }
         
-        s.setEtat("Initialisation de la partie de " + this.jeu.getJoueurs().size() + "joueurs ...");
+        Trame.envoyer("JSDI/0");
+        s.setEtat("Initialisation de la partie...");
         notif.notifier();
         
         jeu.initialiser();
