@@ -18,11 +18,11 @@ public class ConnexionJeu extends Thread {
     private Socket socketServeurJeu;
     private BufferedReader in;
     private PrintWriter out;
-    private String pseudo;
+    private Joueur joueur;
     private JFrame fenetre;
     
-    public ConnexionJeu(Socket socketServeurJeu, String pseudo, JFrame fenetre) {
-        this.pseudo = pseudo;
+    public ConnexionJeu(Socket socketServeurJeu, Joueur joueur, JFrame fenetre) {
+        this.joueur = joueur;
         this.socketServeurJeu = socketServeurJeu;
         this.fenetre = fenetre;        
     }
@@ -43,15 +43,14 @@ public class ConnexionJeu extends Thread {
         }
 
         // Envoi du pseudo
-        String trame = "CCCI/" + this.pseudo;
+        String trame = "CCCI/" + joueur.getPseudo();
         this.out.println(trame);
         System.out.println("[ConnexionJeu] Trame envoyée : " + trame);
         
         // Communication avec le jeu
         try {
             String trameEnTete, trameContenu;                
-            while((trame = this.in.readLine()) != null) {
-                
+            while((trame = this.in.readLine()) != null) {                
                 trameEnTete = trame.split("/")[0];
 
                 trameContenu = "";
@@ -62,7 +61,10 @@ public class ConnexionJeu extends Thread {
                 
                 if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'D' && trameEnTete.charAt(3) == 'I') {
                     JLabel decompteLabel = Outils.getComponentByName(fenetre, "infoLabel");
-                    if(Integer.valueOf(trameContenu) == 1) {
+                    if(Integer.valueOf(trameContenu) == -1) {
+                        decompteLabel.setText("En attente d'autres joueurs...");
+                    }
+                    else if(Integer.valueOf(trameContenu) == 1) {
                         decompteLabel.setText("1 seconde avant le début de la partie...");
                     }
                     else if(Integer.valueOf(trameContenu) == 0) {
@@ -75,7 +77,7 @@ public class ConnexionJeu extends Thread {
                 }
                 else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'T' && trameEnTete.charAt(3) == 'I') {
                     JLabel infoLabel = Outils.getComponentByName(fenetre, "infoLabel");
-                    if(trameContenu.equals(this.pseudo)) {
+                    if(trameContenu.equals(joueur.getPseudo())) {
                         infoLabel.setText("C'est à vous de jouer !");
                         JButton bouton = Outils.getComponentByName(fenetre, "pretBouton");
                         bouton.setText("FINIR TOUR");
@@ -84,6 +86,15 @@ public class ConnexionJeu extends Thread {
                     else {
                         infoLabel.setText("C'est au tour de " + trameContenu + ".");
                     }                                         
+                }
+                else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'P' && trameEnTete.charAt(3) == 'I') { // Pioche d'une carte
+                    System.out.println("[ActualisationServeurs] Trame reçu : " + trame);
+                    if(trameContenu.split(";")[0].equals(joueur.getPseudo())) {
+                        joueur.addCarteEnMain(trameContenu.split(";")[1]);
+                    }
+                    else if(trameContenu.split(";")[0].equals("Défausse")) {
+                        joueur.setCarteDefausse(trameContenu.split(";")[1]);
+                    }
                 }
                 
             }

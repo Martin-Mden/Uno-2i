@@ -2,6 +2,7 @@
 package GUI;
 
 import Metier.ConnexionJeu;
+import Metier.Joueur;
 import Metier.ServeurJeu;
 import Outils.Trame;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class ClientJeu extends javax.swing.JFrame {
             System.err.println("[ClientJeu] Impossible de se connecter au serveur de jeu. " + e.getMessage());
         }
         
-        connexionJeu = new ConnexionJeu(socketServeurJeu, this.clientLobby.c.getPseudo(), this);
+        connexionJeu = new ConnexionJeu(socketServeurJeu, new Joueur(this.clientLobby.c.getPseudo()), this);
         connexionJeu.start();
         
     }
@@ -72,9 +73,14 @@ public class ClientJeu extends javax.swing.JFrame {
         chatWindow.setEditable(false);
         chatWindow.setColumns(20);
         chatWindow.setRows(5);
+        chatWindow.setEnabled(false);
         jScrollPane1.setViewportView(chatWindow);
 
+        chatInput.setEditable(false);
+        chatInput.setEnabled(false);
+
         envoyerMessageBouton.setText(">");
+        envoyerMessageBouton.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
