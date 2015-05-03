@@ -110,8 +110,11 @@ public class ConnexionJeu extends Thread {
                         
                         for(String carte : this.joueur.getListeCartesEnMain()) {
                             mainJoueurPanel.add(new CarteGraphique(carte, true));
-                            mainJoueurPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                            mainJoueurPanel.add(Box.createRigidArea(new Dimension((120 / this.joueur.getListeCartesEnMain().size()) - ((this.joueur.getListeCartesEnMain().size() - 7) * 10), 0)));
                         }                        
+                        
+                        mainJoueurPanel.revalidate();
+                        mainJoueurPanel.repaint();
                     }
                     else if(trameContenu.split(";")[0].equals("Défausse")) {
                         joueur.setCarteDefausse(trameContenu.split(";")[1]);
