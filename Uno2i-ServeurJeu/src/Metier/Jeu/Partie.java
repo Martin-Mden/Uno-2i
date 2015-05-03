@@ -117,10 +117,12 @@ public class Partie {
     public void piocher(Joueur joueur){
         if(joueur.getNom().equals(this.getTourActuel().getJoueurActuel().getNom())){
             if(!joueur.isaPioche()){
-                joueur.getMain().ajouterCarte(this.getPioche().piocher());
+                Carte cartePiochee = this.getPioche().piocher();
+                joueur.getMain().ajouterCarte(cartePiochee);
+                Trame.envoyerPour("JSPI/" + joueur.getNom() + ";" + cartePiochee.getId(), joueur);
+                Trame.envoyerSauf("JSPI/" + joueur.getNom() + ";", joueur);
                 joueur.setaPioche(true);
-                System.out.println("");
-                //On passe au joueur suivant
+                System.out.println("");                                
 
                 for(Joueur j : this.getJoueurs()) {
                     System.out.println("Contenu de la main du joueur \"" + j.getNom() + "\" :");
