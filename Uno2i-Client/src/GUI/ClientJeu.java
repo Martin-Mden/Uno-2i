@@ -5,6 +5,7 @@ import Metier.ConnexionJeu;
 import Metier.Joueur;
 import Metier.ServeurJeu;
 import Outils.Trame;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -40,16 +41,19 @@ public class ClientJeu extends javax.swing.JFrame {
         connexionJeu = new ConnexionJeu(socketServeurJeu, new Joueur(this.clientLobby.c.getPseudo()), this);
         connexionJeu.start();
         
+        //setContentPane(new AffichageCarte("Images/cartes.png"));
         
-        //Afficher l'image de carte
-        try {
-            Image img = ImageIO.read(new File("/Images/cartes.png"));
-            Graphics g = this.getGraphics();
-            g.drawImage(img, 0, 0, this);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientJeu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Container cp = this.getContentPane();
         
+        cp.add(new AffichageCarte("Images/cartes.png"));
+        ClientJeu.getFrames()[0].repaint();
+        /*Image img = getToolkit().getImage(getClass().getClassLoader().getResource("Images/cartes.png"));
+        Graphics g = this.getGraphics();
+        this.paintComponents(g);
+        g.drawImage(img, 0, 0, this);
+        ClientJeu.getFrames()[0].repaint();
+        System.out.println("Il est passé par ici");
+        */
     }
 
     /**
