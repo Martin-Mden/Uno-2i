@@ -5,12 +5,17 @@ import Metier.ConnexionJeu;
 import Metier.Joueur;
 import Metier.ServeurJeu;
 import Outils.CarteGraphique;
+import Outils.Outils;
 import Outils.Trame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.io.IOException;
 import java.net.Socket;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 
 public class ClientJeu extends javax.swing.JFrame {
@@ -38,6 +43,26 @@ public class ClientJeu extends javax.swing.JFrame {
         
         connexionJeu = new ConnexionJeu(socketServeurJeu, new Joueur(this.clientLobby.c.getPseudo()), this);
         connexionJeu.start();
+        
+    
+        
+
+        //mainJoueurPanel.setLayout(lay);
+        /*
+        LayoutManager lay2 = new BorderLayout(100, 100);
+        JPanel carte = new JPanel(lay2);
+           
+        mainJoueurPanel.add(carte, BorderLayout.LINE_END);       
+        CarteGraphique ca = new CarteGraphique("#V8", true);      
+        carte.add(ca, BorderLayout.CENTER);
+        
+        lay2 = new BorderLayout(100, 100);        
+        carte = new JPanel(lay2);
+           
+        mainJoueurPanel.add(carte, BorderLayout.LINE_END);
+        ca = new CarteGraphique("#J0", true);      
+        carte.add(ca, BorderLayout.CENTER);*/
+
     }
 
     /**
@@ -56,6 +81,7 @@ public class ClientJeu extends javax.swing.JFrame {
         chatInput = new javax.swing.JTextField();
         envoyerMessageBouton = new javax.swing.JButton();
         defaussePanel = new javax.swing.JPanel();
+        mainJoueurPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("UNO - Plateau de jeu");
@@ -102,6 +128,17 @@ public class ClientJeu extends javax.swing.JFrame {
             .addGap(0, 112, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout mainJoueurPanelLayout = new javax.swing.GroupLayout(mainJoueurPanel);
+        mainJoueurPanel.setLayout(mainJoueurPanelLayout);
+        mainJoueurPanelLayout.setHorizontalGroup(
+            mainJoueurPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 645, Short.MAX_VALUE)
+        );
+        mainJoueurPanelLayout.setVerticalGroup(
+            mainJoueurPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 133, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,23 +155,32 @@ public class ClientJeu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(251, 251, 251)
-                        .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(251, 251, 251)
+                                .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(mainJoueurPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(82, 82, 82)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(122, 122, 122)
-                        .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(defaussePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(mainJoueurPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(chatInput)
                     .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
@@ -172,6 +218,7 @@ public class ClientJeu extends javax.swing.JFrame {
     private javax.swing.JButton envoyerMessageBouton;
     private javax.swing.JLabel infoLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel mainJoueurPanel;
     private javax.swing.JButton pretBouton;
     // End of variables declaration//GEN-END:variables
 }

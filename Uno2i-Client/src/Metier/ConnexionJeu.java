@@ -5,6 +5,7 @@ import Outils.CarteGraphique;
 import Outils.Outils;
 import Outils.Trame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -95,6 +99,19 @@ public class ConnexionJeu extends Thread {
                     System.out.println("[ActualisationServeurs] Trame reçu : " + trame);
                     if(trameContenu.split(";")[0].equals(joueur.getPseudo())) {
                         joueur.addCarteEnMain(trameContenu.split(";")[1]);
+                        
+                        // Organisation des cartes en main
+                        JPanel mainJoueurPanel = Outils.getComponentByName(fenetre, "mainJoueurPanel");
+                        mainJoueurPanel.removeAll();
+                        LayoutManager lay = new BoxLayout(mainJoueurPanel, BoxLayout.LINE_AXIS);
+                        mainJoueurPanel.setLayout(lay);
+                        mainJoueurPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+                        mainJoueurPanel.add(Box.createHorizontalGlue());
+                        
+                        for(String carte : this.joueur.getListeCartesEnMain()) {
+                            mainJoueurPanel.add(new CarteGraphique(carte, true));
+                            mainJoueurPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                        }                        
                     }
                     else if(trameContenu.split(";")[0].equals("Défausse")) {
                         joueur.setCarteDefausse(trameContenu.split(";")[1]);
