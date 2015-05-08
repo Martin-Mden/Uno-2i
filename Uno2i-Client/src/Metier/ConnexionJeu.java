@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ConnexionJeu extends Thread {
@@ -89,7 +90,10 @@ public class ConnexionJeu extends Thread {
                         infoLabel.setText("C'est à vous de jouer !");
                         JButton bouton = Outils.getComponentByName(fenetre, "pretBouton");
                         bouton.setText("FINIR TOUR");
-                        bouton.setEnabled(true);
+                        bouton.setEnabled(false);
+                        
+                        JButton bouton2 = Outils.getComponentByName(fenetre, "piocherBouton");
+                        bouton2.setEnabled(true);
                     }
                     else {
                         infoLabel.setText("C'est au tour de " + trameContenu + ".");
@@ -124,6 +128,50 @@ public class ConnexionJeu extends Thread {
                         defaussePanel.setLayout(lay);
                         CarteGraphique ca = new CarteGraphique(trameContenu.split(";")[1], true);      
                         defaussePanel.add(ca, BorderLayout.CENTER);
+                        
+                        defaussePanel.revalidate();
+                        defaussePanel.repaint();
+                    }
+                }
+                else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'J' && trameEnTete.charAt(3) == 'R') {
+                    // Contenu : CARTE JOUEE (à enlever à la main) ; NOUVELLE CARTE DEFAUSSE (à updater sur l'interface)
+                    System.out.println("[ActualisationServeurs] Trame reçu : " + trame);
+                                        
+                    joueur.removeCarteEnMain(trameContenu.split(";")[0]);
+                    joueur.setCarteDefausse(trameContenu.split(";")[1]);
+                    
+                    // Organisation des cartes en main
+                    JPanel mainJoueurPanel = Outils.getComponentByName(fenetre, "mainJoueurPanel");
+                    mainJoueurPanel.removeAll();
+                    LayoutManager lay = new BoxLayout(mainJoueurPanel, BoxLayout.LINE_AXIS);
+                    mainJoueurPanel.setLayout(lay);
+                    mainJoueurPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+                    mainJoueurPanel.add(Box.createHorizontalGlue());
+
+                    for(String carte : this.joueur.getListeCartesEnMain()) {
+                        mainJoueurPanel.add(new CarteGraphique(carte, true));
+                        mainJoueurPanel.add(Box.createRigidArea(new Dimension((120 / this.joueur.getListeCartesEnMain().size()) - ((this.joueur.getListeCartesEnMain().size() - 7) * 10), 0)));
+                    }                        
+
+                    mainJoueurPanel.revalidate();
+                    mainJoueurPanel.repaint();
+                    
+                    // Update de la carte de défausse
+                    lay = new BorderLayout();
+                    JPanel defaussePanel = Outils.getComponentByName(fenetre, "defaussePanel");
+                    defaussePanel.setLayout(lay);
+                    CarteGraphique ca = new CarteGraphique(trameContenu.split(";")[1], true);      
+                    defaussePanel.add(ca, BorderLayout.CENTER);
+                    
+                    defaussePanel.revalidate();
+                    defaussePanel.repaint();
+                    
+                    JButton bouton = Outils.getComponentByName(fenetre, "pretBouton");
+                    bouton.setEnabled(false);
+                }
+                else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'J' && trameEnTete.charAt(3) == 'E') {
+                    if(trameContenu.split(";")[0].equals("Message")) {
+                        JOptionPane.showMessageDialog(fenetre, trameContenu.split(";")[1]);
                     }
                 }
                 

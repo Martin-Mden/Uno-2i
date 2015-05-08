@@ -6,10 +6,12 @@ import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 
-public class CarteGraphique extends JPanel {
+public class CarteGraphique extends JPanel implements MouseListener {
     private static final long serialVersionUID = 1L;
     private final String carte;
     private boolean survol, actif, visible;
@@ -20,6 +22,7 @@ public class CarteGraphique extends JPanel {
         this.visible = visible;
         actif = true;
         setOpaque(false);
+        addMouseListener(this);
         setPreferredSize(new Dimension(76, 112));
     }
 
@@ -59,5 +62,33 @@ public class CarteGraphique extends JPanel {
             dessine((Graphics2D) g, Color.WHITE);
         
         repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getClickCount() >= 2) {
+            Trame.envoyer("JCJI/" + carte);
+            System.out.println("Trame envoyée: JCJI/" + carte);                        
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
