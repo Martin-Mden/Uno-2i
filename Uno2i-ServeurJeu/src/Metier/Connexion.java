@@ -1,6 +1,7 @@
 
 package Metier;
 
+import Metier.Jeu.Carte;
 import Metier.Jeu.Joueur;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,6 +74,15 @@ public class Connexion extends Thread {
                 
                 if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'C' && trameEnTete.charAt(2) == 'T' && trameEnTete.charAt(3) == 'R') {
                     this.serveur.getPartie().passerTour();
+                }
+                else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'C' && trameEnTete.charAt(2) == 'P' && trameEnTete.charAt(3) == 'I') {
+                    this.serveur.getPartie().piocher(joueur);
+                    this.out.println("JSPI/" + joueur.getNom() + ";" + this.serveur.getPartie().getPioche().getDefausse().getId());
+                }
+                else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'C' && trameEnTete.charAt(2) == 'J' && trameEnTete.charAt(3) == 'I') {
+                    if(this.serveur.getPartie().jouer(new Carte(trameContenu), joueur)) {                      
+                        this.out.println("JSJR/" + trameContenu + ";" + this.serveur.getPartie().getPioche().getDefausse().getId());
+                    }
                 }
             }
            
