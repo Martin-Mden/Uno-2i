@@ -95,14 +95,20 @@ public class ClientJeu extends javax.swing.JFrame {
         chatWindow.setEditable(false);
         chatWindow.setColumns(20);
         chatWindow.setRows(5);
-        chatWindow.setEnabled(false);
         jScrollPane1.setViewportView(chatWindow);
 
-        chatInput.setEditable(false);
-        chatInput.setEnabled(false);
+        chatInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatInputActionPerformed(evt);
+            }
+        });
 
         envoyerMessageBouton.setText(">");
-        envoyerMessageBouton.setEnabled(false);
+        envoyerMessageBouton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                envoyerMessageBoutonActionPerformed(evt);
+            }
+        });
 
         defaussePanel.setMaximumSize(new java.awt.Dimension(76, 112));
         defaussePanel.setMinimumSize(new java.awt.Dimension(76, 112));
@@ -218,6 +224,17 @@ public class ClientJeu extends javax.swing.JFrame {
         piocherBouton.setEnabled(false);
         pretBouton.setEnabled(true);
     }//GEN-LAST:event_piocherBoutonActionPerformed
+
+    private void envoyerMessageBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_envoyerMessageBoutonActionPerformed
+        // TODO add your handling code here:
+        String laTrame = "MCEI/"+this.clientLobby.c.getPseudo()+";"+chatInput.getText();
+        Trame.envoyer(laTrame);
+        System.out.println("[ClientJeu] La trame envoyée: "+laTrame);
+    }//GEN-LAST:event_envoyerMessageBoutonActionPerformed
+
+    private void chatInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatInputActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

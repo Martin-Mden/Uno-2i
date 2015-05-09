@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class ConnexionJeu extends Thread {
     
@@ -122,7 +123,7 @@ public class ConnexionJeu extends Thread {
                     }
                     else if(trameContenu.split(";")[0].equals("Défausse")) {
                         joueur.setCarteDefausse(trameContenu.split(";")[1]);
-                        
+                        System.out.println("[ConnexionJeu] Affiche défausse"+joueur.getCarteDefausse());
                         LayoutManager lay = new BorderLayout();
                         JPanel defaussePanel = Outils.getComponentByName(fenetre, "defaussePanel");
                         defaussePanel.setLayout(lay);
@@ -173,6 +174,11 @@ public class ConnexionJeu extends Thread {
                     if(trameContenu.split(";")[0].equals("Message")) {
                         JOptionPane.showMessageDialog(fenetre, trameContenu.split(";")[1]);
                     }
+                }
+                else if(trameEnTete.charAt(0) == 'M' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'E' && trameEnTete.charAt(3) == 'I') {
+                    System.out.println("on y est");
+                    JTextArea jta = Outils.getComponentByName(fenetre, "chatWindow");
+                    jta.append(trameContenu);
                 }
                 
             }
