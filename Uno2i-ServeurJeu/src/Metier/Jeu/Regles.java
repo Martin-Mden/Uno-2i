@@ -17,7 +17,6 @@ public class Regles {
     public boolean verifier(Joueur joueur, Carte carteJouee){
         //On commence par tester si c'est bien le tour de la bonne personne
         if(this.getPartie().getTourActuel().getJoueurActuel().getNom().equals(joueur.getNom())){
-            System.out.println("[Regles] C'est le bon joueur.");
             
             //On regarde maintenant si la carte jouée par le joueur est bien dans sa main            
             if(!joueur.getMain().possedeCarte(carteJouee)) {

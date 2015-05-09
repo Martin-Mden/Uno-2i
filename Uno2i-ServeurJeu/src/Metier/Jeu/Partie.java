@@ -122,7 +122,7 @@ public class Partie {
                 Trame.envoyerPour("JSPI/" + joueur.getNom() + ";" + cartePiochee.getId(), joueur);
                 Trame.envoyerSauf("JSPI/" + joueur.getNom() + ";", joueur);
                 joueur.setaPioche(true);
-                System.out.println("");                                
+                System.out.println("");                    
 
                 for(Joueur j : this.getJoueurs()) {
                     System.out.println("Contenu de la main du joueur \"" + j.getNom() + "\" :");
