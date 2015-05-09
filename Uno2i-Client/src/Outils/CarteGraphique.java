@@ -68,7 +68,7 @@ public class CarteGraphique extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getClickCount() >= 2) {
             Trame.envoyer("JCJI/" + carte);
-            System.out.println("Trame envoyée: JCJI/" + carte);                        
+            System.out.println("Trame envoyée: JCJI/" + carte);           
         }
     }
 

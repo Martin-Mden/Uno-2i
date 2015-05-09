@@ -46,10 +46,10 @@ public class ConnexionJeu extends Thread {
             Trame.initialiser(this);
         }
         catch(UnknownHostException e) {
-            System.err.println("[Connexion] Impossible de se connecter au serveur de jeu (Hôte inconnu) : " + e.getMessage());
+            System.err.println("[ConnexionJeu] Impossible de se connecter au serveur de jeu (Hôte inconnu) : " + e.getMessage());
         } 
         catch (IOException e) {
-            System.err.println("[Connexion] Impossible de se connecter au serveur de jeu : " + e.getMessage());
+            System.err.println("[ConnexionJeu] Impossible de se connecter au serveur de jeu : " + e.getMessage());
         }
 
         // Envoi du pseudo
@@ -63,6 +63,8 @@ public class ConnexionJeu extends Thread {
             while((trame = this.in.readLine()) != null) {                
                 trameEnTete = trame.split("/")[0];
 
+                System.out.println("[ConnexionJeu] Trame reçu : " + trame);
+                
                 trameContenu = "";
                 if(trame.split("/").length != 1)
                     trameContenu = trame.split("/")[1];
@@ -160,6 +162,7 @@ public class ConnexionJeu extends Thread {
                     // Update de la carte de défausse
                     lay = new BorderLayout();
                     JPanel defaussePanel = Outils.getComponentByName(fenetre, "defaussePanel");
+                    defaussePanel.removeAll();
                     defaussePanel.setLayout(lay);
                     CarteGraphique ca = new CarteGraphique(trameContenu.split(";")[1], true);      
                     defaussePanel.add(ca, BorderLayout.CENTER);
@@ -169,16 +172,29 @@ public class ConnexionJeu extends Thread {
                     
                     JButton bouton = Outils.getComponentByName(fenetre, "pretBouton");
                     bouton.setEnabled(false);
+                    
+                    JButton piocheBouton = Outils.getComponentByName(fenetre, "piocherBouton");
+                    piocheBouton.setEnabled(false);
                 }
                 else if(trameEnTete.charAt(0) == 'J' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'J' && trameEnTete.charAt(3) == 'E') {
                     if(trameContenu.split(";")[0].equals("Message")) {
                         JOptionPane.showMessageDialog(fenetre, trameContenu.split(";")[1]);
                     }
                 }
-                else if(trameEnTete.charAt(0) == 'M' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'E' && trameEnTete.charAt(3) == 'I') {
-                    System.out.println("on y est");
+                else if(trameEnTete.charAt(0) == 'M' && trameEnTete.charAt(1) == 'S' && trameEnTete.charAt(2) == 'R' && trameEnTete.charAt(3) == 'I') {
                     JTextArea jta = Outils.getComponentByName(fenetre, "chatWindow");
-                    jta.append(trameContenu);
+                    jta.append(trameContenu.split(";")[0] + "> " + trameContenu.split(";")[1] + "\n");
+                }
+                else if(trameEnTete.equals("Defausse")) {
+                    LayoutManager lay = new BorderLayout();
+                    JPanel defaussePanel = Outils.getComponentByName(fenetre, "defaussePanel");
+                    defaussePanel.removeAll();
+                    defaussePanel.setLayout(lay);
+                    CarteGraphique ca = new CarteGraphique(trameContenu, true);      
+                    defaussePanel.add(ca, BorderLayout.CENTER);
+                    
+                    defaussePanel.revalidate();
+                    defaussePanel.repaint();
                 }
                 
             }

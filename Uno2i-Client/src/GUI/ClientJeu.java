@@ -5,6 +5,7 @@ import Metier.ConnexionJeu;
 import Metier.Joueur;
 import Metier.ServeurJeu;
 import Outils.Trame;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -15,6 +16,8 @@ public class ClientJeu extends javax.swing.JFrame {
     
     public ClientJeu(ClientLobby clientLobby, ServeurJeu srv) {
         initComponents();
+        
+        getContentPane().setBackground(new Color(0x849B87));
         
         this.clientLobby = clientLobby;
         
@@ -73,8 +76,9 @@ public class ClientJeu extends javax.swing.JFrame {
         defaussePanel = new javax.swing.JPanel();
         mainJoueurPanel = new javax.swing.JPanel();
         piocherBouton = new javax.swing.JButton();
+        unoBouton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UNO - Plateau de jeu");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -90,6 +94,7 @@ public class ClientJeu extends javax.swing.JFrame {
             }
         });
 
+        infoLabel.setForeground(new java.awt.Color(255, 255, 255));
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         chatWindow.setEditable(false);
@@ -110,6 +115,7 @@ public class ClientJeu extends javax.swing.JFrame {
             }
         });
 
+        defaussePanel.setBackground(new Color(0x849B87));
         defaussePanel.setMaximumSize(new java.awt.Dimension(76, 112));
         defaussePanel.setMinimumSize(new java.awt.Dimension(76, 112));
         defaussePanel.setPreferredSize(new java.awt.Dimension(76, 112));
@@ -124,6 +130,8 @@ public class ClientJeu extends javax.swing.JFrame {
             defaussePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 112, Short.MAX_VALUE)
         );
+
+        mainJoueurPanel.setBackground(new Color(0x849B87));
 
         javax.swing.GroupLayout mainJoueurPanelLayout = new javax.swing.GroupLayout(mainJoueurPanel);
         mainJoueurPanel.setLayout(mainJoueurPanelLayout);
@@ -144,6 +152,14 @@ public class ClientJeu extends javax.swing.JFrame {
             }
         });
 
+        unoBouton.setText("UNO");
+        unoBouton.setEnabled(false);
+        unoBouton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unoBoutonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,7 +173,9 @@ public class ClientJeu extends javax.swing.JFrame {
                         .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(piocherBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(unoBouton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chatInput, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -182,7 +200,8 @@ public class ClientJeu extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(unoBouton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(chatInput)
                                 .addComponent(piocherBouton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(envoyerMessageBouton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -226,15 +245,23 @@ public class ClientJeu extends javax.swing.JFrame {
     }//GEN-LAST:event_piocherBoutonActionPerformed
 
     private void envoyerMessageBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_envoyerMessageBoutonActionPerformed
-        // TODO add your handling code here:
+        envoyerMessage();
+    }//GEN-LAST:event_envoyerMessageBoutonActionPerformed
+
+    private void envoyerMessage() {
         String laTrame = "MCEI/"+this.clientLobby.c.getPseudo()+";"+chatInput.getText();
         Trame.envoyer(laTrame);
         System.out.println("[ClientJeu] La trame envoyée: "+laTrame);
-    }//GEN-LAST:event_envoyerMessageBoutonActionPerformed
-
+        chatInput.setText(""); 
+    }
+    
     private void chatInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chatInputActionPerformed
+
+    private void unoBoutonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unoBoutonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unoBoutonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -247,5 +274,6 @@ public class ClientJeu extends javax.swing.JFrame {
     private javax.swing.JPanel mainJoueurPanel;
     private javax.swing.JButton piocherBouton;
     private javax.swing.JButton pretBouton;
+    private javax.swing.JButton unoBouton;
     // End of variables declaration//GEN-END:variables
 }
